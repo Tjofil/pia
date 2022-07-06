@@ -1,0 +1,108 @@
+<div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
+    <div>
+        <mat-form-field appearance='fill' class='reg-form-field'>
+            <mat-label>Назив категорије</mat-label>
+            <input matInput [(ngModel)]='newCategory'>
+        </mat-form-field>
+        <button mat-raised-button (click)='createCategory()' color='primary'>Направи
+            основну категорију</button>
+    </div>
+    <div style='width:100%;'>
+
+
+
+        <mat-nav-list>
+            <ng-container *ngFor='let cat of company.categories'>
+                <mat-divider *ngIf='cat.parent == ""' style='margin-top: 0.3%;'></mat-divider>
+                <mat-list-item *ngIf='cat.parent == ""' (click)='onCategorySelected(cat)'>
+
+
+                    <div style='margin-right: 3%;'>
+                        <mat-icon *ngIf='!expandingCategories.includes(cat)'>keyboard_arrow_right</mat-icon>
+                        <mat-icon *ngIf='expandingCategories.includes(cat)'>keyboard_arrow_down</mat-icon>
+                    </div>
+
+
+                    <mat-form-field *ngIf='beingEdited(cat) else plainName'>
+                        <mat-label>Назив категорије</mat-label>
+                        <input matInput [(ngModel)]='edited.name'>
+                    </mat-form-field>
+
+                    <ng-template #plainName>
+                        {{cat.name}}
+                    </ng-template>
+
+
+
+                    <div style='position: absolute; right: 1%;'>
+                        <ng-container *ngIf='!beingEdited(cat) else confirm'>
+                            <button mat-button color="primary" (click)='openSubCreation(cat, $event)'>
+                                <mat-icon>queue</mat-icon>
+                            </button>
+                            <button mat-button color="primary" (click)='editCategory(cat, $event)'>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-button color="primary" (click)='removeCategory(cat)'>
+                                <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                            <button mat-raised-button (click)='appointProduct(cat, $event)' color='primary'>Додели
+                                артикал</button>
+                        </ng-container>
+                        <ng-template #confirm>
+                            <button mat-button color="primary" (click)='confirmEdit(cat, $event)'>
+                                <mat-icon>check</mat-icon>
+                            </button>
+                        </ng-template>
+                    </div>
+
+                </mat-list-item>
+
+                <mat-list *ngIf='expandingCategories.includes(cat)' style='margin-left: 8%;'>
+
+                    <ng-container *ngFor='let subCat of company.categories'>
+                        <mat-list-item *ngIf='subCat.parent == cat.name'>
+
+                            <mat-form-field *ngIf='beingEdited(subCat) else plainName'>
+                                <mat-label>Назив поткатегорије</mat-label>
+                                <input matInput [(ngModel)]='edited.name'>
+                            </mat-form-field>
+
+                            <ng-template #plainName>
+                                {{subCat.name}}
+                            </ng-template>
+
+                            <div style='position: absolute; right: 1%;'>
+                                <ng-container *ngIf='!beingEdited(subCat) else confirm'>
+                                    <button mat-button color="primary" (click)='editCategory(subCat, $event)'>
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+
+                                    <button mat-button color="primary" (click)='removeCategory(subCat)'>
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                    <button mat-raised-button (click)='appointProduct(subCat, $event)'
+                                        color='primary'>Додели
+                                        артикал</button>
+                                </ng-container>
+
+                                <ng-template #confirm>
+                                    <button mat-button color="primary" (click)='confirmEdit(subCat, $event)'>
+                                        <mat-icon>check</mat-icon>
+                                    </button>
+                                </ng-template>
+
+
+                            </div>
+
+
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+
+            </ng-container>
+            <mat-divider></mat-divider>
+        </mat-nav-list>
+
+    </div>
+</div>
+{{message}}

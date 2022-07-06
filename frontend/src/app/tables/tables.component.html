@@ -1,0 +1,67 @@
+<div fxLayout='column' fxLayoutAlign='space-between center'>
+    <div style='margin-top: 3%; margin-bottom: 2%; width: 100%;' class='center'>
+        <mat-form-field appearance='fill'>
+            <mat-label>Тренутни објекат</mat-label>
+            <mat-select [(ngModel)]='reg' required="true">
+                <mat-option *ngFor='let loc of company.cashRegs' [value]='loc'>{{loc.location}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance='fill' style='margin-left: 5%;'>
+            <mat-label>Име новог одељења</mat-label>
+            <input matInput [(ngModel)]='newDepartment'>
+        </mat-form-field>
+        <button mat-raised-button (click)='addDepartment()' color='primary'
+            style='margin-left: 4%; margin-right: 5%;'>Додај
+            одељење</button>
+    </div>
+
+    <div style='width: 820px;'>
+        <mat-tab-group mat-align-tabs=' center' (selectedTabChange)="tabChanged($event)">
+            <ng-container *ngFor='let loc of company.cashRegs'>
+                <ng-container *ngIf='loc.location == reg.location'>
+                    <mat-tab *ngFor='let depart of loc.departments' [label]='depart.name'>
+                        <div class = 'center'>
+                            <div class="department" #containers>
+                                <ng-container
+                                    *ngFor='let table of depart.tables; let index = index; trackBy : trackById'>
+                                    <div #div class="table" cdkDragBoundary=".department" cdkDrag
+                                        [ngStyle]="{'border-radius' : table.round ? '50%' : '4px'} "
+                                        [cdkDragFreeDragPosition]='table.pos' [style.height.px]="table.radius"
+                                        [style.width.px]="table.radius" (cdkDragEnded)="onDrop(index)"
+                                        (cdkDragMoved)="onMove(index)">
+                                        {{table.id}}
+
+                                        <div class="handle" cdkDragHandle>
+                                            <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                                                </path>
+                                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </mat-tab>
+                </ng-container>
+
+
+            </ng-container>
+
+        </mat-tab-group>
+    </div>
+
+    <br />
+    <div style='width: 100%;' class='center'>
+        <button mat-raised-button (click)='addTable()' color='primary' style='margin-right: 4%;'>Додај сто</button>
+
+        <button mat-raised-button (click)='save()' color='primary'>Сачувај распоред</button>
+    </div>
+    <div class='center' style='margin-top: 2%'>
+        <p [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">{{message}}
+        </p>
+    </div>
+
+</div>

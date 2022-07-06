@@ -1,0 +1,30 @@
+<div fxLayout='column' fxLayoutAlign='space-between center'>
+    <div style='width: 820px;'>
+        <mat-tab-group mat-align-tabs=' center' (selectedTabChange)="tabChanged($event)">
+            <ng-container *ngFor='let loc of data.company.cashRegs'>
+                <ng-container *ngIf='loc.location == data.location'>
+                    <mat-tab *ngFor='let depart of loc.departments' [label]='depart.name'>
+                        <div class='center'>
+                            <div class="department" #containers>
+                                <ng-container
+                                    *ngFor='let table of depart.tables; let index = index; trackBy : trackById'>
+                                    <div #div class="table" cdkDragBoundary=".department" cdkDrag
+                                        [ngStyle]="{'border-radius' : table.round ? '50%' : '4px' , 'color' : itemsOnTable(table.id, depart.name) ? '#8c0c34' : ''}"
+                                        [cdkDragFreeDragPosition]='table.pos' [style.height.px]="table.radius"
+                                        [style.width.px]="table.radius" cdkDragDisabled="true"
+                                        (click)='onSelect(depart, table.id)'>
+                                        {{table.id}}
+                                        <ng-container *ngIf='itemsOnTable(table.id, depart.name)'>
+                                            <br />
+                                            ЗАУЗЕТ
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </ng-container>
+            </ng-container>
+        </mat-tab-group>
+    </div>
+</div>

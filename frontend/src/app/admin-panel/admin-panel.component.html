@@ -1,0 +1,142 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened style='width: 200px; background-color: #3f51b5;'>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" class='white-link'>Почетна</a>
+      <a mat-list-item (click)="setState('approvals')" class='white-link'>Захтеви</a>
+      <a mat-list-item (click)="setState('states')" class='white-link'>Стања</a>
+      <a mat-list-item (click)="setState('revenue')" class='white-link'>Пазари</a>
+      <a mat-list-item (click)="setState('register')" class='white-link'>Регистрација</a>
+
+
+    </mat-nav-list>
+    <mat-nav-list class='logout-list' style='width:100%'>
+      <a mat-list-item (click)="logout()" style='vertical-align: bottom;' class='white-link'>Одјава</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+
+  <mat-sidenav-content>
+    <app-add-user *ngIf = 'state == "register"'></app-add-user>
+
+    <ng-container *ngIf='state == "revenue"'>
+      <div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
+        <div>
+          <h3 style='text-align: center; margin-top: 1%;'>За увид у дневне пазаре потребно је унети опсег датума.<br />
+          </h3>
+        </div>
+
+        <div style='width: 100%;' class='center'>
+          <mat-form-field appearance='fill'>
+            <mat-label>Претражи назив</mat-label>
+            <input matInput [(ngModel)]='searchName'>
+          </mat-form-field>
+          <mat-form-field appearance='fill' style='margin-right: 3%; margin-left: 3%;'>
+            <mat-label>Претражи ПИБ</mat-label>
+            <input matInput [(ngModel)]='searchTaxId'>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Опсег датума</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Датум од" [(ngModel)]='dateFrom'>
+              <input matEndDate placeholder="Датум до" [(ngModel)]='dateTo'>
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+        <div>
+
+        </div>
+        <div style='width:100%'>
+          <mat-list>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngFor='let company of filteredCompanies' class='center'>
+              Име предузећа: {{company.companyName}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ПИБ: {{company.taxId}}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Одговорно лице: {{company.name}} {{company.surname}}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <div style='position: absolute; right: 1%;' class='center'>
+                <button mat-button color="primary" (click)='getInfo(company)'>
+                  <mat-icon>info</mat-icon>
+                </button>
+              </div>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
+    </ng-container>
+
+
+    <ng-container *ngIf='state == "states"'>
+      
+      <h3 style='text-align: center; margin-top: 2%;'>Стања предузећа тренутно у систему.<br />
+      </h3>
+      <div style='width:100%'>
+
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item *ngFor='let company of companies' class='center'>
+            <ng-container *ngIf='!notReviewed.includes(company)'>
+              Име предузећа: {{company.companyName}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ПИБ: {{company.taxId}}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Одговорно лице: {{company.name}} {{company.surname}}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <div style='position: absolute; right: 1%;' class='center'>
+                <ng-container *ngIf='company.approval == "approved" else blocked'>
+                  Статус : Активно
+                  <button mat-button color="warn" (click)='reject(company)'>
+                    <mat-icon>block</mat-icon>
+                  </button>
+                </ng-container>
+
+                <ng-template #blocked>
+                  Статус : Неактивно
+                  <button mat-button color="success" (click)='approve(company)'>
+                    <mat-icon>check_circle_outline</mat-icon>
+                  </button>
+                </ng-template>
+
+              </div>
+              <mat-divider></mat-divider>
+            </ng-container>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf='state == "approvals"'>
+      <h3 style='text-align: center; margin-top: 2%;'>Предузећа која чекају одобрење регистрације.<br />
+      </h3>
+      <div style='width:100%'>
+
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item *ngFor='let company of notReviewed' class='center'>
+
+            Име предузећа: {{company.companyName}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ПИБ: {{company.taxId}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Одговорно лице: {{company.name}} {{company.surname}}
+
+
+
+            <div style='position: absolute; right: 1%;' class='center'>
+              <button mat-button color="success" (click)='approve(company)'>
+                <mat-icon>thumb_up</mat-icon>
+              </button>
+              <button mat-button color="warn" (click)='reject(company)'>
+                <mat-icon>thumb_down</mat-icon>
+              </button>
+            </div>
+
+          </mat-list-item>
+
+
+          <mat-divider></mat-divider>
+        </mat-list>
+      </div>
+    </ng-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,35 @@
+import { BankAccount } from "./bankAcount";
+import { CashReg, Department } from "./cashReg";
+import { Category } from "./category";
+import { Customer } from "./customer";
+import { Product } from "./product";
+import { Receipt } from "./receipt";
+import { Table } from "./table";
+import { Warehouse } from "./warehouse";
+
+export class Company {
+    username: string;
+    password: string;
+    companyName: string;
+    companyAdress: string;
+    mail: string;
+    phone: string;
+    taxId: number;
+    name: string;
+    surname: string;
+    regId: number;
+    logo: string;
+    loginDone: boolean;
+    approval: string;
+    category: string;
+    activityCode: string;
+    inTaxSystem: boolean;
+    bankAccounts: BankAccount[];
+    warehouses: Warehouse[];
+    cashRegs: CashReg[];
+    products: Product[];
+    customers: Customer[];
+    categories: Category[];
+    pendingReceipts: Receipt[];
+    closedReceipts: Receipt[];
+};

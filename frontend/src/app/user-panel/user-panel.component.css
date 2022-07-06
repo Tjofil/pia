@@ -1,0 +1,46 @@
+.float-child {
+    width: 50%;
+    float: left;
+    padding: 25px;
+}
+
+.mat-stepper-vertical {
+    margin-top: 8px;
+}
+
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.invisible {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+}
+
+.logout-list {
+    position: absolute;
+    bottom: 0px;
+}
+
+table {
+    width: 100%;
+}
+
+.white-link {
+    color: white;
+}
+
+.mat-divider-vertical {
+    height: 100%;
+    width: 0px !important;
+    position: inherit !important;
+}

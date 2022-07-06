@@ -1,0 +1,68 @@
+<div #refocus class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" style='width:100%; height: 100%;'>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Шифра </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.code}}
+            </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Назив </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.name}}
+            </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="unit">
+            <th mat-header-cell *matHeaderCellDef> Јединица мере </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.unit}}
+            </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="taxRate">
+            <th mat-header-cell *matHeaderCellDef> Стопа пореза </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.taxRate}}%
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="producer">
+            <th mat-header-cell *matHeaderCellDef> Произвођач </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.producer}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="choose" class='center'>
+            <th mat-header-cell *matHeaderCellDef style='text-align: right; width: 1%;'></th>
+            <td mat-cell *matCellDef="let element" style='text-align: right; width: 1%;'>
+                <mat-checkbox style='margin-left: 10%;' color='primary'
+                    (change)="productSelected($event.checked, element)"></mat-checkbox>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[10]" aria-label="Одаберите страницу">
+    </mat-paginator>
+    <div class='center'>
+        <button mat-raised-button color='primary' (click)='productManip(true)'>Измена</button>
+        <button #focusDiv class='divider-button' mat-raised-button color='primary'
+            (click)='deleteProducts()'>Обриши</button>
+        <button mat-raised-button color='primary' (click)='productManip(false)'>Додај</button>
+    </div>
+    <div class='center'>
+        <p [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">{{message}}
+        </p>
+    </div>
+    <app-add-product *ngIf='changeMode' [productToAdd]='productToAdd' [company]='company'></app-add-product>
+</div>

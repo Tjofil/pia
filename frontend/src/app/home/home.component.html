@@ -1,0 +1,50 @@
+<div class='float-container'>
+    <app-register fxLayout='column' fxLayoutAlign='space-between center' class='float-child' [isCustomer]="false"
+        [isAdmin]="false" (messageEvent)="changeMessage($event)" [class.bleak]='registerMode == true'></app-register>
+
+    <div fxLayout='column' fxLayoutAlign='space-between center' [class.bleak]='registerMode == false'
+        class='float-child'>
+        <br />
+        <div>
+            <mat-form-field appearance='fill' class='reg-form-field'>
+                <mat-label>Корисничко име</mat-label>
+                <input matInput [(ngModel)]='loginUsername'>
+            </mat-form-field>
+
+            <mat-form-field appearance='fill'>
+                <mat-label>Лозинка</mat-label>
+                <input type='password' matInput [(ngModel)]='loginPassword'>
+            </mat-form-field>
+        </div>
+
+        <button mat-raised-button (click)='login()' color='primary'>Пријави се</button>
+
+    </div>
+    <br />
+    <hr style='border-top: 2px solid #574AE2; padding-left: 10px;'> <br />
+    <div class='center'>
+        <div>
+            <label id='mode-radio-group' class='padded-radio'>Одаберите услугу:</label>
+            <br />
+            <mat-radio-group color='primary' [(ngModel)]='registerMode' aria-labelledby='mode-radio-group'>
+                <mat-radio-button [value]='false' class='padded-radio'>Регистрација</mat-radio-button>
+                <mat-radio-button [value]='true' class='padded-radio'>Пријава</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div [ngClass]='{"bleak" : !registerMode }'> <label id='mode-radio-group' class='padded-radio'>Тип
+                корисника:</label>
+            <br />
+            <mat-radio-group color='primary' [(ngModel)]='companyMode' aria-labelledby='mode-radio-group'>
+                <mat-radio-button [value]='true' class='padded-radio'>Предузеће</mat-radio-button>
+                <mat-radio-button [value]='false' class='padded-radio'>Физичко лице</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+
+    </div>
+
+    <div class='center'>
+        <p [ngClass]="{ 'error-msg' : message != successReg , 'success-msg' : message == successReg }">{{message}}</p>
+    </div>
+
+</div>

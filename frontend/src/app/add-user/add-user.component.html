@@ -1,0 +1,65 @@
+<div class='float-container'>
+    <app-register fxLayout='column' fxLayoutAlign='space-between center' class='float-child' [isCustomer]="false"
+        [isAdmin]='true' (messageEvent)="changeMessage($event)" [class.bleak]='companyMode == true'>
+    </app-register>
+
+    <div fxLayout='column' fxLayoutAlign='space-between center' [class.bleak]='companyMode == false'
+        class='float-child'>
+        <br />
+        <mat-form-field appearance='fill'>
+            <mat-label>Корисничко име</mat-label>
+            <input matInput [(ngModel)]='username'>
+        </mat-form-field>
+        <div>
+            <mat-form-field appearance='fill' class='reg-form-field'>
+                <mat-label>Контакт телефон
+                </mat-label>
+                <input matInput [(ngModel)]='phone'>
+            </mat-form-field>
+            <mat-form-field appearance='fill'>
+                <mat-label>Број личне карте</mat-label>
+                <input matInput [(ngModel)]='idCard'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance='fill' class='reg-form-field'>
+                <mat-label>Име</mat-label>
+                <input matInput [(ngModel)]='name'>
+            </mat-form-field>
+            <mat-form-field appearance='fill'>
+                <mat-label>Презиме</mat-label>
+                <input matInput [(ngModel)]='surname'>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field appearance='fill' class='reg-form-field'>
+                <mat-label>Лозинка</mat-label>
+                <input matInput [(ngModel)]='password' type='password' ngModel
+                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$">
+            </mat-form-field>
+
+            <mat-form-field appearance='fill'>
+                <mat-label>Потврда лозинке</mat-label>
+                <input matInput [(ngModel)]='passwordRepeat' type='password'>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button (click)='regUser()' color='primary'>Региструј купца</button>
+
+    </div>
+    <br />
+    <hr style='border-top: 2px solid #574AE2; padding-left: 10px;'> <br />
+    <div class='center'>
+        <label id='mode-radio-group' class='padded-radio'>Одаберите услугу:</label>
+        <br />
+        <mat-radio-group color='primary' [(ngModel)]='companyMode' aria-labelledby='mode-radio-group'>
+            <mat-radio-button [value]='false' class='padded-radio'>Предузеће</mat-radio-button>
+            <mat-radio-button [value]='true' class='padded-radio'>Физичко лице</mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+
+    <div class='center'>
+        <p [ngClass]="{ 'error-msg' : message != successReg , 'success-msg' : message == successReg }">{{message}}</p>
+    </div>
+</div>

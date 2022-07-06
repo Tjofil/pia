@@ -1,0 +1,147 @@
+<mat-tab-group mat-align-tabs='center' style='background-color: white;'>
+    <br />
+    <mat-tab label="Општи подаци">
+        <div style='margin-top: 3%; margin-bottom: 3%;'>
+            <div #focusedField class='center'>
+                <mat-form-field appearance='fill' class='reg-form-field'>
+                    <mat-label>Име</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.name'>
+                </mat-form-field>
+                <div class='center'>
+                    <mat-form-field appearance='fill'>
+                        <mat-label>Шифра</mat-label>
+                        <input matInput [(ngModel)]='productToAdd.code'>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class='center'>
+                <mat-form-field appearance='fill' class='reg-form-field'>
+                    <mat-label>Јединица мере</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.unit'>
+                </mat-form-field>
+                <mat-form-field appearance='fill'>
+                    <mat-label>Порсеска стопа</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.taxRate'>
+                </mat-form-field>
+            </div>
+            <div *ngIf='company.category == "caterer"'>
+                <div class='center'>
+                    <label id='mode-radio-group' class='padded-radio'>Тип артикла</label>
+                </div>
+                <div class='center'>
+                    <mat-radio-group color='primary' [(ngModel)]='productToAdd.prodType'
+                        aria-labelledby='mode-radio-group' style='width: 100%; display: flex; justify-content: center;'>
+                        <mat-radio-button value='food'>Храна</mat-radio-button>
+                        <mat-radio-button value='drink' style='padding-right: 2%; padding-left: 2%;'>Пиће
+                        </mat-radio-button>
+                        <mat-radio-button value='material'>Сировина</mat-radio-button>
+
+                    </mat-radio-group>
+                </div>
+            </div>
+
+        </div>
+
+    </mat-tab>
+    <mat-tab label="Допунски подаци">
+        <div style='margin-top: 3%; margin-bottom: 3%;'>
+            <div class='center'>
+                <mat-form-field appearance='fill'>
+                    <mat-label>Произвођач</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.producer'>
+                </mat-form-field>
+            </div>
+            <div class='center'>
+                <mat-form-field appearance='fill' class='reg-form-field'>
+                    <mat-label>Земља порекла</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.countryOrigin'>
+                </mat-form-field>
+                <mat-form-field appearance='fill'>
+                    <mat-label>Страни назив</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.foreignName'>
+                </mat-form-field>
+            </div>
+            <div class='center'>
+                <mat-form-field appearance='fill' class='reg-form-field'>
+                    <mat-label>Баркод број</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.barcode'>
+                </mat-form-field>
+                <mat-form-field appearance='fill'>
+                    <mat-label>Царинска тарифа</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.customsTariff'>
+                </mat-form-field>
+            </div>
+            <div class='center'>
+                <mat-form-field appearance='fill' class='reg-form-field'>
+                    <mat-label>Мин. жељене залихе</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.minAmountGlobal'>
+                </mat-form-field>
+                <mat-form-field appearance='fill'>
+                    <mat-label>Макс. жељене залихе</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.maxAmountGlobal'>
+                </mat-form-field>
+            </div>
+            <div class='center'>
+                <mat-form-field appearance='fill' class='reg-form-field'>
+                    <mat-label>Опис</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.description'>
+                </mat-form-field>
+                <mat-form-field appearance='fill'>
+                    <mat-label>Декларација</mat-label>
+                    <input matInput [(ngModel)]='productToAdd.declaration'>
+                </mat-form-field>
+            </div>
+            <div class='center'>
+                <mat-checkbox color='primary' style='margin-right: 2%;' [(ngModel)]='productToAdd.enforceTax'>Такса
+                </mat-checkbox>
+                <mat-checkbox color='primary' [(ngModel)]='productToAdd.enforceExcise'>Акцизе </mat-checkbox>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Цене и стања робе">
+        <div class='center'>
+            <table style='margin-top: 3%; margin-bottom: 3%; '>
+                <tr>
+                    <th>Име магацина</th>
+                    <th>Набавна цена</th>
+                    <th>Продајна цена</th>
+                    <th>Стање лагера</th>
+                    <th>Мин. жељена количина</th>
+                    <th>Макс. жељена количина</th>
+
+                </tr>
+                <tr *ngFor='let stat of productToAdd.warehouseStats'>
+                    <td>{{stat.warehouseName}}</td>
+                    <td>
+                        <mat-form-field class='reg-form-field'>
+                            <input matInput [(ngModel)]='stat.purchasePrice'>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class='reg-form-field'>
+                            <input matInput [(ngModel)]='stat.sellingPrice'>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class='reg-form-field'>
+                            <input matInput [(ngModel)]='stat.currAmount'>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class='reg-form-field'>
+                            <input matInput [(ngModel)]='stat.minAmount'>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class='reg-form-field'>
+                            <input matInput [(ngModel)]='stat.maxAmount'>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </mat-tab>
+    <br />
+
+</mat-tab-group>

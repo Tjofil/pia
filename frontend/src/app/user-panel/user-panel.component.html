@@ -1,0 +1,54 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened style='width: 200px; background-color: #3f51b5;'>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" class='white-link'>Почетна</a>
+      <a mat-list-item (click)="setState('products')" class='white-link'>Артикли</a>
+      <a mat-list-item (click)="setState('receipts')" class='white-link'>Рачуни</a>
+
+
+
+    </mat-nav-list>
+    <mat-nav-list class='logout-list' style='width:100%'>
+      <a mat-list-item (click)="logout()" style='vertical-align: bottom;' class='white-link'>Одјава</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+
+  <mat-sidenav-content>
+    <div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'
+      *ngIf='state == "products"'>
+      <div>
+        <h3 style='text-align: center; margin-top: 1%;'>Предузећа присутна у фискалном систему.<br />
+        </h3>
+      </div>
+
+      <div style='width: 100%;' class='center'>
+        <mat-form-field appearance='fill'>
+          <mat-label>Име предузећа</mat-label>
+          <input matInput [(ngModel)]='searchProducer'>
+        </mat-form-field>
+      </div>
+
+      <div style='width:100%'>
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item *ngFor='let company of companies' class='center'>
+            Име предузећа: {{company.companyName}}
+
+            <div style='position: absolute; right: 1%;' class='center'>
+              <button mat-button color="primary" (click)='getArticles(company)'>
+                <mat-icon>list</mat-icon>
+              </button>
+            </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

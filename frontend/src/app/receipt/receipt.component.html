@@ -1,0 +1,77 @@
+<div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
+    <div style='width: 100%;' class='center'>
+        <mat-form-field appearance='fill' style='margin-right: 3%;'>
+            <mat-label>Тренутни објекат</mat-label>
+            <mat-select [(ngModel)]='currentLocation' required="true">
+                <mat-option *ngFor='let loc of company.cashRegs' [value]='loc.location'>{{loc.location}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color='primary' (click)='openReceipt()'>Отвори рачун</button>
+    </div>
+    <div style='width:100%'>
+        <mat-nav-list>
+            <ng-container *ngFor='let receipt of company.pendingReceipts'>
+                <mat-divider></mat-divider>
+                <mat-list-item *ngIf='receipt.location == currentLocation' (click)=onSelect(receipt)>
+
+                    <div style='margin-right: 3%;'>
+                        <mat-icon *ngIf='!expandingReceipts.includes(receipt)'>keyboard_arrow_right</mat-icon>
+                        <mat-icon *ngIf='expandingReceipts.includes(receipt)'>keyboard_arrow_down</mat-icon>
+                    </div>
+
+                    {{receipt.department}} | {{receipt.tableId}}
+
+                    <div style='position: absolute; right: 1%;'>
+                        <button mat-button color="primary" (click)='addItem(receipt, $event)'>
+                            <mat-icon>queue</mat-icon>
+                        </button>
+                        <button mat-button color="primary" (click)='deleteReceipt(receipt)'>
+                            <mat-icon>remove_circle_outline</mat-icon>
+                        </button>
+                        <button mat-raised-button (click)='closeReceipt(receipt, $event)'
+                            color='primary'>Затвори</button>
+                    </div>
+
+                </mat-list-item>
+
+                <mat-list *ngIf='expandingReceipts.includes(receipt)' style='margin-left: 8%;'>
+
+                    <ng-container *ngFor='let item of receipt.items'>
+                        <mat-list-item [disableRipple]="true">
+
+                            <mat-form-field>
+                                <mat-label>Артикал</mat-label>
+                                <mat-select [(ngModel)]='item.name' required="true">
+                                    <mat-option *ngFor='let product of company.products' [value]='product.name'>
+                                        {{product.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field style='margin-left: 4%; margin-right: 4%;'>
+                                <mat-label>Количина
+                                    <ng-container *ngIf='item.name != undefined'>
+                                        ({{getUnit(item.name)}})
+                                    </ng-container>
+                                </mat-label>
+                                <input matInput [(ngModel)]='item.amount'>
+                            </mat-form-field>
+                            <ng-container *ngIf='item.name != undefined && item.amount != undefined'>
+                                Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
+                                item).toFixed(2)}}) ДИН
+                            </ng-container>
+                            <div style='position: absolute; right: 1%;'>
+                                <button mat-button color="primary" (click)='removeItem(receipt, item)'>
+                                    <mat-icon>remove_circle_outline</mat-icon>
+                                </button>
+                            </div>
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </ng-container>
+            <mat-divider></mat-divider>
+        </mat-nav-list>
+    </div>
+    {{message}}
+
+</div>
