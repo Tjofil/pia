@@ -53,6 +53,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddUserComponent } from './add-user/add-user.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
+import { ArticleDetailsComponent } from './article-details/article-details.component';
+import { UserReceiptsComponent } from './user-receipts/user-receipts.component';
+import { ExpenditureComponent } from './expenditure/expenditure.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 
 
 
@@ -77,7 +82,10 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
     AdminPanelComponent,
     CompanyInfoDialogComponent,
     AddUserComponent,
-    UserPanelComponent
+    UserPanelComponent,
+    ArticleDetailsComponent,
+    UserReceiptsComponent,
+    ExpenditureComponent
   ],
   imports: [
     AppRoutingModule,
@@ -114,7 +122,8 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
     BrowserModule,
     DragDropModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxChartsModule
 
   ],
   providers: [MatDatepickerModule],

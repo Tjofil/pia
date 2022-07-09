@@ -23,7 +23,9 @@
     "@angular/router": "~13.3.0",
     "@material/banner": "^14.0.0",
     "@material/dialog": "^14.0.0",
+    "@swimlane/ngx-charts": "^20.1.0",
     "angular-file-reader": "^1.0.0",
+    "bootstrap": "^5.1.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

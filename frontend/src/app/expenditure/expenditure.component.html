@@ -1,0 +1,23 @@
+<div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
+  <div>
+    <h3 style='text-align: center; margin-top: 2%;'>Извештаји о потрошњи.<br />
+    </h3>
+  </div>
+  <div style='width: 100%; margin-bottom: 3%;' class='center'>
+    <mat-radio-group color='primary' [(ngModel)]='mode' aria-labelledby='mode-radio-group'>
+      <mat-radio-button value='month' class='padded-radio'>Месечни</mat-radio-button>
+      <mat-radio-button value='year' class='padded-radio'>Годишњи</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <ngx-charts-bar-vertical *ngIf='mode == "year"' [view]="[1000,400]" [results]="yearData" [xAxisLabel]="'Претходних 12 месеци (хронолошки)'"
+    [legendTitle]="'Месеци потрошње'" [yAxisLabel]="'Потрошња'"  [showXAxisLabel]="true"
+    [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true" [gradient]="true">
+  </ngx-charts-bar-vertical>
+
+  <ngx-charts-bar-vertical *ngIf='mode == "month"' [view]="[1000,400]" [results]="monthData" [xAxisLabel]="'Датни у текућем месецу'"
+    [legendTitle]="'Датни потрошње'" [yAxisLabel]="'Потрошња'"  [showXAxisLabel]="true"
+    [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true" [gradient]="true">
+  </ngx-charts-bar-vertical>
+
+</div>

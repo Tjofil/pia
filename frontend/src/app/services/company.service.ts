@@ -6,6 +6,7 @@ import { Customer } from '../models/customer';
 import { Product } from '../models/product';
 import { Receipt } from '../models/receipt';
 import { Table } from '../models/table';
+import { User } from '../models/user';
 import { Warehouse } from '../models/warehouse';
 
 @Injectable({
@@ -71,5 +72,16 @@ export class CompanyService {
 
   getAll() {
     return this.http.get(`${this.backendUrl}/companies/getAll`);
+  }
+
+  getMyReceipts(idCard: number) {
+    const data = {
+      idCard: idCard
+    }
+    return this.http.post(`${this.backendUrl}/companies/getByIdCard`, data);
+  }
+
+  getLastReceipts() {
+    return this.http.get(`${this.backendUrl}/companies/getLast`);
   }
 }

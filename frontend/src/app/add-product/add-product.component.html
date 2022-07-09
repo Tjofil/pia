@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs='center' style='background-color: white;'>
+<mat-tab-group mat-align-tabs='center' style='background-color: white;' style='width: 100%'>
     <br />
     <mat-tab label="Општи подаци">
         <div style='margin-top: 3%; margin-bottom: 3%;'>
@@ -98,48 +98,76 @@
             </div>
         </div>
     </mat-tab>
-    <mat-tab label="Цене и стања робе">
-        <div class='center'>
-            <table style='margin-top: 3%; margin-bottom: 3%; '>
-                <tr>
-                    <th>Име магацина</th>
-                    <th>Набавна цена</th>
-                    <th>Продајна цена</th>
-                    <th>Стање лагера</th>
-                    <th>Мин. жељена количина</th>
-                    <th>Макс. жељена количина</th>
+    <mat-tab label="Цене и стања робе" style='width: 100%'>
+        <div class='center' style='width: 100%'>
+            <table mat-table [dataSource]="productToAdd.warehouseStats" style='width: 100%'
+                style='margin-top: 3%; margin-bottom: 3%; '>
 
-                </tr>
-                <tr *ngFor='let stat of productToAdd.warehouseStats'>
-                    <td>{{stat.warehouseName}}</td>
-                    <td>
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef style='margin-right: 3%;'> Име магацина </th>
+                    <td mat-cell *matCellDef="let element" style='margin-right: 3%;'> {{element.warehouseName}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="buy">
+                    <th mat-header-cell *matHeaderCellDef> Набавна цена [ДИН]</th>
+                    <td mat-cell *matCellDef="let element">
                         <mat-form-field class='reg-form-field'>
-                            <input matInput [(ngModel)]='stat.purchasePrice'>
+                            <input matInput [(ngModel)]='element.purchasePrice'>
                         </mat-form-field>
                     </td>
-                    <td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="sell">
+                    <th mat-header-cell *matHeaderCellDef> Продајна цена [ДИН]</th>
+                    <td mat-cell *matCellDef="let element">
                         <mat-form-field class='reg-form-field'>
-                            <input matInput [(ngModel)]='stat.sellingPrice'>
+                            <input matInput [(ngModel)]='element.sellingPrice'>
                         </mat-form-field>
                     </td>
-                    <td>
+                </ng-container>
+
+                <ng-container matColumnDef="curr">
+                    <th mat-header-cell *matHeaderCellDef> Стање лагера </th>
+                    <td mat-cell *matCellDef="let element">
                         <mat-form-field class='reg-form-field'>
-                            <input matInput [(ngModel)]='stat.currAmount'>
+                            <input matInput [(ngModel)]='element.currAmount'>
                         </mat-form-field>
                     </td>
-                    <td>
+                </ng-container>
+
+                <ng-container matColumnDef="min">
+                    <th mat-header-cell *matHeaderCellDef> Мин. жељена количина </th>
+                    <td mat-cell *matCellDef="let element">
                         <mat-form-field class='reg-form-field'>
-                            <input matInput [(ngModel)]='stat.minAmount'>
+                            <input matInput [(ngModel)]='element.minAmount'>
                         </mat-form-field>
                     </td>
-                    <td>
+                </ng-container>
+
+                <ng-container matColumnDef="max">
+                    <th mat-header-cell *matHeaderCellDef> Макс. жељена количина </th>
+                    <td mat-cell *matCellDef="let element">
                         <mat-form-field class='reg-form-field'>
-                            <input matInput [(ngModel)]='stat.maxAmount'>
+                            <input matInput [(ngModel)]='element.maxAmount'>
                         </mat-form-field>
                     </td>
-                </tr>
+                </ng-container>
+
+                <!-- Symbol Column -->
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+
+
         </div>
+
 
     </mat-tab>
     <br />

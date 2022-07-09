@@ -1,5 +1,6 @@
 import express from 'express'
 import CompanyModel from '../models/company'
+import company from '../models/company';
 
 export class CompanyController {
 
@@ -86,6 +87,51 @@ export class CompanyController {
                 console.log(err)
             } else {
                 res.json(companies)
+            }
+        });
+    }
+
+    getByIdCard = (req: express.Request, res: express.Response) => {
+        CompanyModel.find({}, (err, companies) => {
+            if (err) {
+                console.log(err)
+            } else {
+                let param = req.body.idCard;
+                let toReturn = [];
+                companies.forEach(company => {
+                    company.closedReceipts.forEach(receipt => {
+                        console.log(receipt.idCard)
+                        if (receipt.buyerId == param) {
+                            toReturn.push(receipt);
+                        }
+                    });
+                });
+                res.json(toReturn)
+            }
+        });
+    }
+
+    getLastReceipts = (req: express.Request, res: express.Response) => {
+        CompanyModel.find({}, (err, companies) => {
+            if (err) {
+                console.log(err)
+            } else {
+                let dummy = [];
+                companies.forEach(company => {
+                    company.closedReceipts.forEach(receipt => {
+                        dummy.push(receipt);
+                    });
+                });
+                dummy.sort((receipt1, receipt2) => {
+                    let date1 : Date = new Date(receipt1.closingDate);
+                    let date2 : Date = new Date(receipt2.closingDate);
+                    return date2.getTime() - date1.getTime() 
+                })
+                let toReturn = []
+                for (let i = 0; i < Math.min(dummy.length, 5); ++i) {
+                    toReturn.push(dummy[i]);
+                }
+                res.json(toReturn)
             }
         });
     }

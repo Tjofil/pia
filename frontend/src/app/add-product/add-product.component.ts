@@ -17,6 +17,8 @@ export class AddProductComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
+  displayedColumns = ['name', 'buy', 'sell', 'curr', 'min', 'max'];
+
   ngOnInit(): void {
   }
 

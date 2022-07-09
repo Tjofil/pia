@@ -24,5 +24,15 @@ companyRouter.route('/getAll').get(
 )
 
 
+companyRouter.route('/getByIdCard').post(
+    (req, res)=>new CompanyController().getByIdCard(req, res)
+)
+
+companyRouter.route('/getLast').get(
+    (req, res)=>new CompanyController().getLastReceipts(req, res)
+)
+
+
+
 export default companyRouter
 

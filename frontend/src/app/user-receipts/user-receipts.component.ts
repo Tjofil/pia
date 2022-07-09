@@ -1,71 +1,29 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { Company } from '../models/company';
 import { Product, WarehouseStat } from '../models/product';
 import { Item, Receipt } from '../models/receipt';
+import { User } from '../models/user';
 import { CompanyService } from '../services/company.service';
-import { UserService } from '../services/user.service';
-
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-user-receipts',
+  templateUrl: './user-receipts.component.html',
+  styleUrls: ['./user-receipts.component.css']
 })
-export class HomeComponent implements OnInit {
+export class UserReceiptsComponent implements OnInit {
 
-  constructor(private companyService: CompanyService, private router: Router, private userService: UserService) { }
+  constructor(private companyService: CompanyService) { }
+  @Input() user: User;
+  @Input() companies: Company[];
+
+  receipts: Receipt[] = [];
+  expandingReceipts: Receipt[] = []
 
   ngOnInit(): void {
-    this.companyService.getLastReceipts().subscribe((receipts: Receipt[]) => {
-      this.lastReceipts = receipts;
-      console.log(receipts.length)
-    })
-    this.companyService.getAll().subscribe((companies: Company[]) => {
-      this.companies = companies;
+    this.companyService.getMyReceipts(this.user.idCard).subscribe((response: Receipt[]) => {
+      this.receipts = response;
     })
   }
-
-  successReg: string = 'Регистрација успешна.'
-  lastReceipts: Receipt[];
-  registerMode: boolean = false;
-  companyMode: boolean = true;
-  message: string = '';
-  companies: Company[] = [];
-  loginUsername: string;
-  loginPassword: string;
-
-  login() {
-    if (this.companyMode) {
-      this.companyService.login(this.loginUsername, this.loginPassword).subscribe((loggedIn: Company) => {
-        if (loggedIn == null) {
-          this.message = 'Неуспешна пријава: погрешни креденцијали.';
-          return;
-        }
-        this.message = '';
-        sessionStorage.setItem('logged', JSON.stringify(loggedIn))
-        this.router.navigate(['company']);
-      });
-    } else {
-      this.userService.login(this.loginUsername, this.loginPassword).subscribe((loggedIn: Company) => {
-        if (loggedIn == null) {
-          this.message = 'Неуспешна пријава: погрешни креденцијали.';
-          return;
-        }
-        this.message = '';
-        sessionStorage.setItem('logged', JSON.stringify(loggedIn))
-        this.router.navigate(['user-panel']);
-      });
-    }
-
-
-  }
-
-  changeMessage(newMessage) {
-    this.message = newMessage;
-  }
-
-
 
   taxAmount(receipt, item: Item) {
     for (let i = 0; i < this.companies.length; ++i) {
@@ -87,7 +45,6 @@ export class HomeComponent implements OnInit {
     }
     return null;
   }
-  expandingReceipts: Receipt[] = []
 
   onSelect(receipt) {
     if (this.expandingReceipts.includes(receipt)) {

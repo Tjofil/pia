@@ -31,6 +31,11 @@
     bottom: 0px;
 }
 
+.invisible {
+    opacity: 0;
+    pointer-events: none;
+}
+
 table {
     width: 100%;
 }

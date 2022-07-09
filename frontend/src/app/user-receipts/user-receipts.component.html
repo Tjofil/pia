@@ -1,0 +1,44 @@
+<div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
+    <div>
+        <h3 style='text-align: center; margin-top: 1%;'>Сви рачуни повезани са бројем личне карте {{user.idCard}}.<br />
+        </h3>
+    </div>
+    <div style='width:100%'>
+        <mat-nav-list>
+            <mat-divider></mat-divider>
+            <ng-container *ngFor='let receipt of receipts'>
+                <mat-list-item (click)=onSelect(receipt)>
+
+                    <div style='margin-right: 3%;'>
+                        <mat-icon *ngIf='!expandingReceipts.includes(receipt)'>keyboard_arrow_right</mat-icon>
+                        <mat-icon *ngIf='expandingReceipts.includes(receipt)'>keyboard_arrow_down</mat-icon>
+                    </div>
+
+                    [ {{getCompany(receipt)}} | {{receipt.location}} | {{receipt.department}} | {{receipt.tableId}} ]
+                    Укупна
+                    вредност (са
+                    порезом):
+                    {{receipt.value}} ДИН
+
+                </mat-list-item>
+
+                <mat-list-item *ngIf='expandingReceipts.includes(receipt)' style='margin-left: 8%;'>
+                    Датум: {{getDate(receipt)}} &nbsp; Начин плаћања:
+                    {{getMethod(receipt)}}</mat-list-item>
+                <mat-list *ngIf='expandingReceipts.includes(receipt)' style='margin-left: 8%;'>
+                    <ng-container *ngFor='let item of receipt.items'>
+                        <mat-list-item [disableRipple]="true">
+                            <mat-icon>arrow_right</mat-icon>
+                            {{item.name}} - {{item.amount}} ({{getUnit(item.name)}})
+                            <div style="position:absolute; right: 2%">
+                                Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
+                                item).toFixed(2)}}) ДИН
+                            </div>
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </ng-container>
+            <mat-divider></mat-divider>
+        </mat-nav-list>
+    </div>
+</div>
