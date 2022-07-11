@@ -1,5 +1,5 @@
 export class Table {
-    id: number;
+    id: string = '';
     pos: { x: number, y: number };
     lastOk : { x: number, y: number };
     radius: number;

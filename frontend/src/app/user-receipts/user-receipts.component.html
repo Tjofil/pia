@@ -29,7 +29,7 @@
                     <ng-container *ngFor='let item of receipt.items'>
                         <mat-list-item [disableRipple]="true">
                             <mat-icon>arrow_right</mat-icon>
-                            {{item.name}} - {{item.amount}} ({{getUnit(item.name)}})
+                            {{item.product.name}} - {{item.amount}} ({{getUnit(item.product.unit)}})
                             <div style="position:absolute; right: 2%">
                                 Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
                                 item).toFixed(2)}}) ДИН

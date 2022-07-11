@@ -14,15 +14,18 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class='center'>
+            <div fxLayoutAlign='center center' fxLayout='row wrap'>
                 <mat-form-field appearance='fill' class='reg-form-field'>
                     <mat-label>Јединица мере</mat-label>
                     <input matInput [(ngModel)]='productToAdd.unit'>
                 </mat-form-field>
-                <mat-form-field appearance='fill'>
-                    <mat-label>Порсеска стопа</mat-label>
-                    <input matInput [(ngModel)]='productToAdd.taxRate'>
-                </mat-form-field>
+                <div fxLayoutAlign='center' fxLayout='column' *ngIf='company.inTaxSystem' style = 'width: 200px;'>
+                    <label id="slider-label" class="example-name-label">Пореска стопа</label>
+
+                    <mat-slider color='primary' thumbLabel [displayWith]="reflect" tickInterval="1000" min='10' max='20'
+                        step='10' [(ngModel)]='productToAdd.taxRate' aria-labelledby="slider-label">
+                    </mat-slider>
+                </div>
             </div>
             <div *ngIf='company.category == "caterer"'>
                 <div class='center'>
@@ -38,6 +41,15 @@
 
                     </mat-radio-group>
                 </div>
+            </div>
+            <input #logoInput type="file" class="file-input" accept=".jpg,.png" (change)="onImageAttached()"
+                #fileUpload>
+            <div fxLayoutAlign='center center' style='margin-top:2%'>
+                <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+                {{logoName || "Подразумевана сличица"}}
+
             </div>
 
         </div>

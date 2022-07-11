@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Company } from '../models/company';
+import { FormBuilder, Validators } from '@angular/forms';
 import { CompanyService } from '../services/company.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { CompanyService } from '../services/company.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private companyService: CompanyService) { }
+  constructor(private companyService: CompanyService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
   }
@@ -38,8 +38,39 @@ export class RegisterComponent implements OnInit {
   logoName: string = '';
   logoUrl: string = '';
 
+  emailCheck = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
+  passCheck = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
+  mobileCheck = new RegExp(/^[+]{1}[0-9]{8,10}$/)
+  taxIdCheck = new RegExp(/^[1-9]{1}[0-9]{8}$/)
 
   register() {
+    if (this.username == '' || this.name == '' || this.surname == '' || this.password == ''
+      || this.passwordRepeat == '' || this.phone == '' || this.mail == ''
+      || this.companyName == '' || this.companyAdress == '' || this.taxId == undefined
+      || this.regId == undefined) {
+      this.messageEvent.emit('Сва поља су обавезна.');
+      return;
+    }
+    if (isNaN(this.regId)) {
+      this.messageEvent.emit('Матични број не може садржати нецифре.');
+      return;
+    }
+    if (!this.emailCheck.test(this.mail)) {
+      this.messageEvent.emit('Електронска пошта није у исправном формату.');
+      return;
+    }
+    if (!this.passCheck.test(this.password)) {
+      this.messageEvent.emit('Лозинка није у исправном формату.');
+      return;
+    }
+    if (!this.mobileCheck.test(this.phone)) {
+      this.messageEvent.emit('Број телефона није у исправном формату.')
+      return;
+    }
+    if (!this.taxIdCheck.test(this.taxId.toString())) {
+      this.messageEvent.emit('ПИБ није у исправном формату.')
+      return;
+    }
     if (this.password != this.passwordRepeat) {
       this.messageEvent.emit('Лозинке се не поклапају.');
       return;

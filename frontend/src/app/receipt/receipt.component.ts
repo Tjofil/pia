@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CashReg } from '../models/cashReg';
 import { Company } from '../models/company';
 import { Product, WarehouseStat } from '../models/product';
 import { Item, Receipt } from '../models/receipt';
@@ -19,7 +20,7 @@ export class ReceiptComponent implements OnInit {
   @Input() company: Company;
   expandingReceipts: Receipt[] = []
   editedItems: Map<Receipt, Item[]> = new Map<Receipt, Item[]>();
-  currentLocation: string;
+  currentLocation: string = '';
   successUpdate: string = 'Распоред успешно сачуван.'
   message: string;
 
@@ -29,6 +30,22 @@ export class ReceiptComponent implements OnInit {
   }
 
   openReceipt() {
+    if (this.company.cashRegs.filter((reg: CashReg) => {
+      reg.location == this.currentLocation;
+    }).length == 0 || this.company.category == 'store') {
+      let newReceipt = new Receipt();
+      newReceipt.location = this.currentLocation;
+      newReceipt.department = '';
+      newReceipt.tableId = '';
+      this.company.pendingReceipts.push(newReceipt);
+      this.companyService.update(this.company).subscribe(response => {
+        if (response['status'] == 'updated') {
+        } else {
+          this.message = response['status'];
+        }
+      })
+      return;
+    }
     const dialogRef = this.dialog.open(TableChooseDialogComponent, {
       height: '650px',
       width: '900px',
@@ -114,6 +131,10 @@ export class ReceiptComponent implements OnInit {
 
   closeReceipt(receipt: Receipt, event) {
     event.stopPropagation()
+    if (receipt.items.length == 0) {
+      this.message = 'За затварање рачуна потребна је најмање једна ставка.'
+      return;
+    }
     const dialogRef = this.dialog.open(ReceiptDialogComponent, {
       height: '300px',
       width: '500px',
@@ -143,15 +164,13 @@ export class ReceiptComponent implements OnInit {
   }
 
   taxAmount(receipt, item: Item) {
-    let product: Product = this.company.products.filter(product => product.name == item.name)[0];
-    let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-    return stat.sellingPrice * item.amount * (product.taxRate / 100.0);
+    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
+    return stat.sellingPrice * item.amount * (item.product.taxRate / 100.0);
   }
 
   valueOf(receipt, item) {
-    let product: Product = this.company.products.filter(product => product.name == item.name)[0];
-    let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-    return stat.sellingPrice * item.amount * (1.0 + product.taxRate / 100.0);
+    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
+    return stat.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
   }
 
 

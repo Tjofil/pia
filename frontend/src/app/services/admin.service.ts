@@ -18,4 +18,8 @@ export class AdminService {
 
     return this.http.post(`${this.backendUrl}/admin/login`, data)
   }
+
+  update(data) {
+    return this.http.post(`${this.backendUrl}/admin/update`, data);
+  }
 }

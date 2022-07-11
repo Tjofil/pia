@@ -1,61 +1,76 @@
-<div fxLayout='column' fxLayoutAlign='space-between center'>
-    <div class='float-container' style='width: 100%;'>
-        <app-register fxLayout='column' fxLayoutAlign='space-between center' class='float-child' [isCustomer]="false"
-            [isAdmin]="false" (messageEvent)="changeMessage($event)" [class.bleak]='registerMode == true'>
+<div fxLayout='column' fxLayoutAlign='center' style='margin-top: 3%; margin-bottom: 3%;'>
+    <div fxLayout="row wrap" fxLayoutGap="0px grid" fxLayoutAlign='space-evenly'>
+        <app-register fxLayoutAlign='center' [isCustomer]="false" [isAdmin]="false"
+            (messageEvent)="changeMessage($event)" [class.bleak]='registerMode == true'>
         </app-register>
 
-        <div fxLayout='column' fxLayoutAlign='space-between center' [class.bleak]='registerMode == false'
-            class='float-child'>
-            <br />
-            <div>
-                <mat-form-field appearance='fill' class='reg-form-field'>
-                    <mat-label>Корисничко име</mat-label>
-                    <input matInput [(ngModel)]='loginUsername'>
-                </mat-form-field>
+        <div fxLayout='column'>
+            <div fxLayoutAlign='center space-between' fxLayout='column' [class.bleak]='registerMode == false'
+                style=" margin-bottom: 5%;">
+                <div fxLayout='row wrap' fxLayoutAlign='center'>
+                    <div>
+                        <mat-form-field appearance='fill' class='form-field'>
+                            <mat-label>Корисничко име</mat-label>
+                            <input matInput [(ngModel)]='loginUsername'>
+                        </mat-form-field>
+                    </div>
 
-                <mat-form-field appearance='fill'>
-                    <mat-label>Лозинка</mat-label>
-                    <input type='password' matInput [(ngModel)]='loginPassword'>
-                </mat-form-field>
+                    <div>
+                        <mat-form-field appearance='fill' class='form-field'>
+                            <mat-label>Лозинка</mat-label>
+                            <input type=' password' matInput [(ngModel)]='loginPassword'>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayoutAlign='center' [class.bleak]='registerMode == false'>
+                    <button mat-raised-button (click)='login()' color='primary'>Пријави се</button>
+                </div>
             </div>
 
-            <button mat-raised-button (click)='login()' color='primary'>Пријави се</button>
 
-        </div>
-        <br />
-        <hr style='border-top: 2px solid #574AE2; padding-left: 10px;'> <br />
-        <div class='center'>
-            <div>
-                <label id='mode-radio-group' class='padded-radio'>Одаберите услугу:</label>
-                <br />
-                <mat-radio-group color='primary' [(ngModel)]='registerMode' aria-labelledby='mode-radio-group'>
-                    <mat-radio-button [value]='false' class='padded-radio'>Регистрација</mat-radio-button>
-                    <mat-radio-button [value]='true' class='padded-radio'>Пријава</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div [ngClass]='{"bleak" : !registerMode }'> <label id='mode-radio-group' class='padded-radio'>Тип
+            <div [ngClass]='{"bleak" : !registerMode }' fxLayoutAlign='center' fxLayout='column'
+                style='margin-top: 5%; margin-bottom: 5%;'>
+
+                <label id='mode-radio-group' fxLayoutAlign='center' style='margin-bottom: 3%'>Тип
                     корисника:</label>
-                <br />
-                <mat-radio-group color='primary' [(ngModel)]='companyMode' aria-labelledby='mode-radio-group'>
-                    <mat-radio-button [value]='true' class='padded-radio'>Предузеће</mat-radio-button>
-                    <mat-radio-button [value]='false' class='padded-radio'>Физичко лице</mat-radio-button>
+                <mat-radio-group fxLayout='row wrap' fxLayoutAlign='space-around center' color='primary'
+                    [(ngModel)]='companyMode' aria-labelledby='mode-radio-group'>
+                    <mat-radio-button [value]='true'>Предузеће
+                    </mat-radio-button>
+                    <mat-radio-button [value]='false'>Физичко лице</mat-radio-button>
                 </mat-radio-group>
             </div>
 
+            <div>
+                <hr style='border-top: 2px solid #574AE2; width: 90%;'>
+            </div>
+
+            <div fxLayoutAlign='center' fxLayout='column' style='margin-top: 3%; margin-bottom: 5%;'>
+                <label id='mode-radio-group' fxLayoutAlign='center' style='margin-bottom: 3%'>Одаберите услугу:</label>
+                <mat-radio-group color='primary' fxLayoutAlign='space-around center' style='margin-bottom: 3%'
+                    fxLayout='row wrap' [(ngModel)]='registerMode' aria-labelledby='mode-radio-group'>
+                    <mat-radio-button [value]='false'>Регистрација
+                    </mat-radio-button>
+                    <mat-radio-button [value]='true'>Пријава</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxLayoutAlign='center'>
+                <p [ngClass]="{ 'error-msg' : message != successReg , 'success-msg' : message == successReg }">
+                    {{message}}
+                </p>
+            </div>
 
         </div>
 
-        <div class='center'>
-            <p [ngClass]="{ 'error-msg' : message != successReg , 'success-msg' : message == successReg }">{{message}}
-            </p>
-        </div>
 
     </div>
-    <div style='width: 100%;'>
-        <div>
-            <h3 style='text-align: center; margin-top: 1%;'>Најскорије издати рачуни.<br />
-            </h3>
-        </div>
+    <div>
+        <h3 style='text-align: center; margin-top: 5%;'>Најскорије издати рачуни:<br />
+        </h3>
+    </div>
+    <div style='width: 100%;' fxLayoutAlign='center'>
+
         <mat-nav-list>
             <mat-divider></mat-divider>
             <ng-container *ngFor='let receipt of lastReceipts'>
@@ -82,16 +97,20 @@
                     <ng-container *ngFor='let item of receipt.items'>
                         <mat-list-item [disableRipple]="true">
                             <mat-icon>arrow_right</mat-icon>
-                            {{item.name}} - {{item.amount}} ({{getUnit(item.name)}})
+                            {{item.product.name}} - {{item.amount}} ({{item.product.unit}})
                             <div style="position:absolute; right: 2%">
                                 Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
                                 item).toFixed(2)}}) ДИН
                             </div>
+
                         </mat-list-item>
                     </ng-container>
                 </mat-list>
+                <mat-divider></mat-divider>
             </ng-container>
-            <mat-divider></mat-divider>
+
         </mat-nav-list>
     </div>
+
+
 </div>

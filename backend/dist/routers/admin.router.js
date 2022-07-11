@@ -7,5 +7,6 @@ const express_1 = __importDefault(require("express"));
 const admin_controller_1 = require("../controllers/admin.controller");
 const adminRouter = express_1.default.Router();
 adminRouter.route('/login').post((req, res) => new admin_controller_1.AdminController().login(req, res));
+adminRouter.route('/update').post((req, res) => new admin_controller_1.AdminController().update(req, res));
 exports.default = adminRouter;
 //# sourceMappingURL=admin.router.js.map

@@ -11,5 +11,9 @@ userRouter.route('/register').post(
     (req, res) => new UserController().register(req, res)
 )
 
+userRouter.route('/update').post(
+    (req, res)=>new UserController().update(req, res)
+)
+
 export default userRouter
 

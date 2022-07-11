@@ -32,9 +32,10 @@ export class ReceiptDialogComponent implements OnInit {
     let value = 0;
     let tax = 0;
     this.data.receipt.items.forEach(item => {
-      let product: Product = this.data.products.filter(product => product.name == item.name)[0];
+      let product: Product = this.data.products.filter(product => product.name == item.product.name)[0];
       let stats: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == this.data.receipt.location)[0];
-      let localTax = stats.sellingPrice * item.amount * (product.taxRate / 100.0)
+      let localTax = item.sellingPrice * item.amount * (item.product.taxRate / 100.0)
+      stats.currAmount -= item.amount;
       tax += localTax;
       value += stats.sellingPrice * item.amount + localTax;
     });
@@ -58,12 +59,9 @@ export class ReceiptDialogComponent implements OnInit {
   }
 
   valueOf(receipt: Receipt) {
-
     let value = 0;
     this.data.receipt.items.forEach(item => {
-      let product: Product = this.data.products.filter(product => product.name == item.name)[0];
-      let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-      value += stat.sellingPrice * item.amount * (1.0 + product.taxRate / 100.0);
+      value += item.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
     });
     return value;
   }

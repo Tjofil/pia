@@ -57,6 +57,9 @@ import { ArticleDetailsComponent } from './article-details/article-details.compo
 import { UserReceiptsComponent } from './user-receipts/user-receipts.component';
 import { ExpenditureComponent } from './expenditure/expenditure.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TesterComponent } from './tester/tester.component';
+import { PassChangeComponent } from './pass-change/pass-change.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 
 
@@ -85,7 +88,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     UserPanelComponent,
     ArticleDetailsComponent,
     UserReceiptsComponent,
-    ExpenditureComponent
+    ExpenditureComponent,
+    TesterComponent,
+    PassChangeComponent
   ],
   imports: [
     AppRoutingModule,
@@ -123,7 +128,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DragDropModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatSliderModule
 
   ],
   providers: [MatDatepickerModule],

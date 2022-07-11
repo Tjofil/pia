@@ -1,16 +1,18 @@
 <div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
     <div style='width: 100%;' class='center'>
         <mat-form-field appearance='fill' style='margin-right: 3%;'>
-            <mat-label>Тренутни објекат</mat-label>
+            <mat-label>Тренутни објекат/магацин</mat-label>
             <mat-select [(ngModel)]='currentLocation' required="true">
-                <mat-option *ngFor='let loc of company.cashRegs' [value]='loc.location'>{{loc.location}}</mat-option>
+                <mat-option *ngFor='let loc of company.cashRegs' [value]='loc.location'>{{loc.location}} [О]
+                </mat-option>
+                <mat-option *ngFor='let wrh of company.warehouses' [value]='wrh.name'>{{wrh.name}} [М]</mat-option>
             </mat-select>
         </mat-form-field>
         <button mat-raised-button color='primary' (click)='openReceipt()'>Отвори рачун</button>
     </div>
     <div style='width:100%'>
         <mat-nav-list>
-            <ng-container *ngFor='let receipt of company.pendingReceipts'>
+            <ng-container *ngFor='let receipt of company.pendingReceipts; let i = index;'>
                 <mat-divider></mat-divider>
                 <mat-list-item *ngIf='receipt.location == currentLocation' (click)=onSelect(receipt)>
 
@@ -18,8 +20,11 @@
                         <mat-icon *ngIf='!expandingReceipts.includes(receipt)'>keyboard_arrow_right</mat-icon>
                         <mat-icon *ngIf='expandingReceipts.includes(receipt)'>keyboard_arrow_down</mat-icon>
                     </div>
+                    {{receipt.location}} - Отворени рачун бр. {{i}}
+                    <ng-container *ngIf='receipt.department != ""'>
+                        | {{receipt.department}} | {{receipt.tableId}}
+                    </ng-container>
 
-                    {{receipt.department}} | {{receipt.tableId}}
 
                     <div style='position: absolute; right: 1%;'>
                         <button mat-button color="primary" (click)='addItem(receipt, $event)'>
@@ -41,23 +46,20 @@
 
                             <mat-form-field>
                                 <mat-label>Артикал</mat-label>
-                                <mat-select [(ngModel)]='item.name' required="true">
-                                    <mat-option *ngFor='let product of company.products' [value]='product.name'>
+                                <mat-select [(ngModel)]='item.product' required="true">
+                                    <mat-option *ngFor='let product of company.products' [value]='product'>
                                         {{product.name}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
 
                             <mat-form-field style='margin-left: 4%; margin-right: 4%;'>
-                                <mat-label>Количина
-                                    <ng-container *ngIf='item.name != undefined'>
-                                        ({{getUnit(item.name)}})
-                                    </ng-container>
+                                <mat-label>Количина {{item.product.unit}}
                                 </mat-label>
                                 <input matInput [(ngModel)]='item.amount'>
                             </mat-form-field>
-                            <ng-container *ngIf='item.name != undefined && item.amount != undefined'>
-                                Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
+                            <ng-container *ngIf='item.product != undefined && item.amount != undefined'>
+                                Цена (порез) : {{(valueOf(receipt, item)).toFixed(2)}} ({{taxAmount(receipt,
                                 item).toFixed(2)}}) ДИН
                             </ng-container>
                             <div style='position: absolute; right: 1%;'>

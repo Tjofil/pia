@@ -19,6 +19,17 @@ class AdminController {
                 }
             });
         };
+        this.update = (req, res) => {
+            admin_1.default.update({ username: req.body.username }, req.body, (err) => {
+                if (err) {
+                    console.log(err);
+                    res.json({ status: 'Неуспешно ажурирање: Непозната грешка.' });
+                }
+                else {
+                    res.json({ status: 'updated' });
+                }
+            });
+        };
     }
 }
 exports.AdminController = AdminController;

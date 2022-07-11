@@ -1,7 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CompanyInfoDialogComponent } from '../company-info-dialog/company-info-dialog.component';
+import { Admin } from '../models/admin';
 import { Company } from '../models/company';
 import { CompanyService } from '../services/company.service';
 
@@ -24,6 +25,9 @@ export class AdminPanelComponent implements OnInit {
   dateFrom: Date;
   dateTo: Date
 
+  user: Admin;
+
+
   @HostListener('input') oninput() {
     this.filteredCompanies = this.companies.filter(
       company => {
@@ -34,6 +38,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = JSON.parse(sessionStorage.getItem('logged'));
     this.companyService.getAll().subscribe((response: Company[]) => {
       this.companies = response;
       this.notReviewed = this.companies.filter(company => company.approval == 'awaiting');

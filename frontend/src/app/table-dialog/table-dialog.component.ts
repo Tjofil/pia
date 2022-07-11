@@ -16,7 +16,7 @@ export class TableDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
 
-  id: number;
+  id: string = '';
   radius: number = 120;
   round: boolean = false;
   message: string = 'dummy'

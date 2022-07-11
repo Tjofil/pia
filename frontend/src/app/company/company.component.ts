@@ -6,6 +6,9 @@ import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { BankAccount } from '../models/bankAcount';
+import { Warehouse } from '../models/warehouse';
+import { CashReg } from '../models/cashReg';
 
 export interface PeriodicElement {
   name: string;
@@ -38,8 +41,16 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  addArrayItem(array, index) {
-    array.splice(index + 1, 0, { bankName: '', accountId: '' })
+  addBankItem(array, index) {
+    array.splice(index + 1, 0, new BankAccount())
+  }
+
+  addWarhsItem(array, index) {
+    array.splice(index + 1, 0, new Warehouse())
+  }
+
+  addCashRegItem(array, index) {
+    array.splice(index + 1, 0, new CashReg())
   }
 
   removeArrayItem(array, index) {
@@ -52,6 +63,18 @@ export class CompanyComponent implements OnInit {
   }
 
   finalize() {
+    let accs = this.myCompany.bankAccounts;
+    let regs = this.myCompany.cashRegs;
+    let warhs = this.myCompany.warehouses;
+
+    if (this.myCompany.activityCode == '' || this.myCompany.category == ''
+      || accs.filter((acc: BankAccount) => acc.accountId == '' || acc.bankName == '').length
+      || warhs.filter((warh: Warehouse) => warh.id == '' || warh.name == '').length
+      || regs.filter((reg: CashReg) => reg.cgType == '' || reg.location == '').length) {
+      this.message = 'Сва поља су обавезна.'
+      return;
+    }
+
     const data = JSON.parse(JSON.stringify(this.myCompany));
     data.loginDone = true;
     this.companyService.update(data).subscribe(response => {

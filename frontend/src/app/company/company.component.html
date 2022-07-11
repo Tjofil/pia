@@ -3,6 +3,7 @@
     <mat-nav-list>
       <a mat-list-item routerLink="/" class='white-link'>Почетна</a>
       <a mat-list-item (click)="setState('dataRevision')" class='white-link'>Подаци</a>
+      <a mat-list-item (click)="setState('passChange')" class='white-link'>Промена лозинке</a>
       <a mat-list-item (click)="setState('customers')" class='white-link'>Наручиоци</a>
       <a mat-list-item (click)="setState('services')" class='white-link'>Робе и услуге</a>
       <a mat-list-item (click)="setState('order')" class='white-link'>Распоред артикала</a>
@@ -22,14 +23,17 @@
 
     <ng-container *ngIf='state == "welcome"'>
       <div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
-          <img [src]='myCompany.logo'>
-          <div style ='margin-top: 3%;'>
-            <h1 class = 'mat-headline' style='text-align: center'>Добродошли на контролни панел система за фискализацију!</h1>
-          </div>
+        <img [src]='myCompany.logo'>
+        <div style='margin-top: 3%;'>
+          <h1 class='mat-headline' style='text-align: center'>Добродошли на контролни панел система за фискализацију!
+          </h1>
+        </div>
 
       </div>
 
     </ng-container>
+
+    <app-pass-change *ngIf='state == "passChange"' [company]='myCompany' [user]='null' [admin]="null"></app-pass-change>
 
     <app-customer *ngIf='state == "customers"' [company]="myCompany"></app-customer>
 
@@ -94,7 +98,7 @@
                   </mat-form-field>
                 </td>
                 <td>
-                  <button mat-button color="primary" (click)='addArrayItem(myCompany.bankAccounts, index)'>
+                  <button mat-button color="primary" (click)='addBankItem(myCompany.bankAccounts, index)'>
                     <mat-icon>queue</mat-icon>
                   </button>
                   <button mat-button color="primary" (click)='removeArrayItem(myCompany.bankAccounts, index)'
@@ -131,7 +135,7 @@
                 </mat-form-field>
               </td>
               <td>
-                <button mat-button color="primary" (click)='addArrayItem(myCompany.warehouses, index)'>
+                <button mat-button color="primary" (click)='addWarhsItem(myCompany.warehouses, index)'>
                   <mat-icon>queue</mat-icon>
                 </button>
                 <button mat-button color="primary" (click)='removeArrayItem(myCompany.warehouses, index)'
@@ -160,7 +164,7 @@
                 </mat-form-field>
               </td>
               <td>
-                <button mat-button color="primary" (click)='addArrayItem(myCompany.cashRegs, index)'>
+                <button mat-button color="primary" (click)='addCashRegItem(myCompany.cashRegs, index)'>
                   <mat-icon>queue</mat-icon>
                 </button>
                 <button mat-button color="primary" (click)='removeArrayItem(myCompany.cashRegs, index)'
@@ -179,6 +183,11 @@
         </mat-tab>
       </mat-tab-group>
     </div>
+    <footer style='position:absolute; bottom: 0px; right: 0px'>
+      <div>© 2022 Copyright: &nbsp;
+        <a href="https://github.com/Tjofil/"> Филип Дробњаковић</a>
+      </div>
+    </footer>
 
   </mat-sidenav-content>
 
@@ -218,8 +227,10 @@
           <mat-form-field style='padding-right: 35px;'>
             <mat-label>Шифра делатности</mat-label>
             <mat-select [(ngModel)]='myCompany.activityCode' required="true">
-              <mat-option value='sif1'> СЗТР - 1234 </mat-option>
-              <mat-option value='sif2'> СУТР - 4321</mat-option>
+              <mat-option value='56.10'> 56.10 Делатности ресторана </mat-option>
+              <mat-option value='56.21'> 56.21 Кетеринг</mat-option>
+              <mat-option value='47.78'> 56.71 Трговина на мало</mat-option>
+              <mat-option value='47.29'> 47.29 Трговина прехрамб. произв.</mat-option>
             </mat-select>
           </mat-form-field>
           <div>
@@ -245,7 +256,7 @@
                 </mat-form-field>
               </td>
               <td>
-                <button mat-button color="primary" (click)='addArrayItem(myCompany.bankAccounts, index)'>
+                <button mat-button color="primary" (click)='addBankItem(myCompany.bankAccounts, index)'>
                   <mat-icon>queue</mat-icon>
                 </button>
                 <button mat-button color="primary" (click)='removeArrayItem(myCompany.bankAccounts, index)'
@@ -282,7 +293,7 @@
                 </mat-form-field>
               </td>
               <td>
-                <button mat-button color="primary" (click)='addArrayItem(myCompany.warehouses, index)'>
+                <button mat-button color="primary" (click)='addWarhsItem(myCompany.warehouses, index)'>
                   <mat-icon>queue</mat-icon>
                 </button>
                 <button mat-button color="primary" (click)='removeArrayItem(myCompany.warehouses, index)'
@@ -315,13 +326,13 @@
                 <mat-form-field appearance='fill'>
                   <mat-label>Тип касе</mat-label>
                   <mat-select [(ngModel)]='myCompany.cashRegs[index].cgType' required="true">
-                    <mat-option value='type1'> Први тип касе </mat-option>
-                    <mat-option value='type2'> Други тип касе </mat-option>
+                    <mat-option value='efu-lpfr'> ЕФУ - ЛПФР </mat-option>
+                    <mat-option value='efu-vpfr'> ЕФУ - ВПФР </mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
               <td>
-                <button mat-button color="primary" (click)='addArrayItem(myCompany.cashRegs, index)'>
+                <button mat-button color="primary" (click)='addCashRegItem(myCompany.cashRegs, index)'>
                   <mat-icon>queue</mat-icon>
                 </button>
                 <button mat-button color="primary" (click)='removeArrayItem(myCompany.cashRegs, index)'
@@ -348,7 +359,11 @@
           <div>
             <button mat-button (click)="stepper.reset()">Ресет</button>
             <button mat-button (click)="finalize()">Крај</button>
+            <p style='margin-top: 2%'
+              [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">
+              {{message}}</p>
           </div>
+
         </mat-step>
       </mat-vertical-stepper>
     </ng-container>

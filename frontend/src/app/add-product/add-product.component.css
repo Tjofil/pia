@@ -3,3 +3,11 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.mat-header-cell {
+    padding: 15px 15px 15px 15px;
+}
+
+.mat-cell {
+    padding: 15px 15px 15px 15px;
+}

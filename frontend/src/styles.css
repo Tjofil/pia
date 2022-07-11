@@ -1,14 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
-body {
+/* body {
     display: flex;
     justify-content: center;
     background-color: white;
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     height: 100%;
+} */
+html,body {
+    height: 100%; margin : 0
 }
-
 .reg-form-field {
     margin-right: 20px;
 }
@@ -54,9 +56,9 @@ body {
     padding: 25px;
 }
 
-.padded-radio {
+/* .padded-radio {
     padding: 20px;
-}
+} */
 
 .error-msg {
     color: #8c0c34;
@@ -78,10 +80,12 @@ body {
     padding: 10px 0;
 }
 
-
+.form-field {
+    width: 94%;
+}
 
 .center {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}

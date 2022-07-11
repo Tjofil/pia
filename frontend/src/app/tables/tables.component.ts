@@ -109,8 +109,24 @@ export class TablesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        let skip = 0;
+        for (let i = 0; i < this.currTabIdx; ++i) {
+          skip += this.reg.departments[i].tables.length;
+        }
+        let tables = this.reg.departments[this.currTabIdx].tables;
+        let cont = this.conts.get(this.currTabIdx).nativeElement.getBoundingClientRect();
+        let moving = { top: cont.top, bottom: cont.top + result.radius, left: cont.left, right: cont.left + result.radius }
+
+        for (let i = 0; i < tables.length; ++i) {
+          let div = this.divs.get(skip + i).nativeElement.getBoundingClientRect();
+          if (moving.top <= div.bottom && moving.bottom >= div.top && moving.left <= div.right && moving.right >= div.left) {
+            this.message = 'Молим вас направите места за нови сто(горњи леви ћошак просторије).'
+            return;
+          }
+        }
         let newTable = new Table(result.id, result.radius, result.round);
         this.reg.departments[this.currTabIdx].tables.push(newTable);
+
       }
     });
 

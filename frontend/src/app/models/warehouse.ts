@@ -1,4 +1,4 @@
 export class Warehouse{
-    name : string;
-    id : string;
+    name : string = '';
+    id : string = '';
 }

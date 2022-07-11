@@ -68,9 +68,17 @@ export class ProductServicesComponent implements OnInit, AfterViewInit {
           this.productToAdd.warehouseStats.push(newStat);
         });
       }
-      this.changeMode = true;
       this.message = ''
+      this.changeMode = true;
+  
     } else {
+      if (this.productToAdd.name == '' || this.productToAdd.code == '' || this.productToAdd.unit == '') {
+        this.message == 'Сва поља из општих података су обавезна.';
+        return;
+      }
+      if (this.productToAdd.taxRate == 0 && this.company.inTaxSystem) {
+        this.productToAdd.taxRate = 10;
+      }
       if (!edit) {
         this.company.products.push(this.productToAdd);
       }

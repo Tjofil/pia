@@ -30,4 +30,8 @@ export class UserService {
     }
     return this.http.post(`${this.backendUrl}/users/login`, data)
   }
+
+  update(data) {
+    return this.http.post(`${this.backendUrl}/users/update`, data);
+  }
 }

@@ -47,15 +47,13 @@ export class ReportComponent implements OnInit {
   }
 
   taxAmount(receipt, item: Item) {
-    let product: Product = this.company.products.filter(product => product.name == item.name)[0];
-    let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-    return stat.sellingPrice * item.amount * (product.taxRate / 100.0);
+    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
+    return stat.sellingPrice * item.amount * (item.product.taxRate / 100.0);
   }
 
   valueOf(receipt, item) {
-    let product: Product = this.company.products.filter(product => product.name == item.name)[0];
-    let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-    return stat.sellingPrice * item.amount * (1.0 + product.taxRate / 100.0);
+    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
+    return stat.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
   }
 
   sumForDay() {
@@ -91,14 +89,6 @@ export class ReportComponent implements OnInit {
     return tax;
   }
 
-  getUnit(name) {
-    let unit = ''
-    this.company.products.forEach(product => {
-      if (product.name == name) {
-        unit = product.unit;
-      }
-    });
-    return unit;
-  }
+
 
 }

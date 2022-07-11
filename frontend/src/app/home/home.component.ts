@@ -68,24 +68,11 @@ export class HomeComponent implements OnInit {
 
 
   taxAmount(receipt, item: Item) {
-    for (let i = 0; i < this.companies.length; ++i) {
-      let product: Product = this.companies[i].products.filter(product => product.name == item.name)[0];
-      let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-      return stat.sellingPrice * item.amount * (product.taxRate / 100.0);
-    }
-
-    return null;
-
+    return item.product.taxRate * item.sellingPrice * item.amount
   }
 
   valueOf(receipt, item) {
-    for (let i = 0; i < this.companies.length; ++i) {
-
-      let product: Product = this.companies[i].products.filter(product => product.name == item.name)[0];
-      let stat: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-      return stat.sellingPrice * item.amount * (1.0 + product.taxRate / 100.0);
-    }
-    return null;
+    return item.sellingPrice * item.amount + this.taxAmount(null, item);
   }
   expandingReceipts: Receipt[] = []
 

@@ -78,7 +78,7 @@ let Company = new Schema({
     },
     products: {
         type: [{
-                code: Number,
+                code: String,
                 name: String,
                 unit: String,
                 taxRate: Number,
@@ -102,7 +102,8 @@ let Company = new Schema({
                         minAmount: Number,
                         maxAmount: Number,
                     }],
-                categoryName: String
+                categoryName: String,
+                picture: String
             }]
     },
     customers: [{
@@ -117,8 +118,36 @@ let Company = new Schema({
         }],
     pendingReceipts: [{
             items: [{
-                    name: String,
+                    product: [{
+                            code: String,
+                            name: String,
+                            unit: String,
+                            taxRate: Number,
+                            producer: String,
+                            prodType: String,
+                            countryOrigin: String,
+                            foreignName: String,
+                            barcode: Number,
+                            customsTariff: Number,
+                            enforceTax: Boolean,
+                            enforceExcise: Boolean,
+                            minAmountGlobal: Number,
+                            maxAmountGlobal: Number,
+                            description: String,
+                            declaration: String,
+                            warehouseStats: [{
+                                    warehouseName: String,
+                                    purchasePrice: Number,
+                                    sellingPrice: Number,
+                                    currAmount: Number,
+                                    minAmount: Number,
+                                    maxAmount: Number,
+                                }],
+                            categoryName: String,
+                            picture: String
+                        }],
                     amount: Number,
+                    sellingPrice: Number
                 }],
             closingDate: Date,
             payementMethod: String,

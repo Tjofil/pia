@@ -8,6 +8,7 @@ import { TablesComponent } from './tables/tables.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
+import { TesterComponent } from './tester/tester.component';
 
 const routes: Routes = [
 
@@ -32,6 +33,9 @@ const routes: Routes = [
   },
   {
     path: 'user-panel', component: UserPanelComponent
+  },
+  {
+    path: 'test', component: TesterComponent
   }
 
 ];

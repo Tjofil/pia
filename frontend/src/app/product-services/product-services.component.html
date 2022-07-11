@@ -64,5 +64,5 @@
         <p [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">{{message}}
         </p>
     </div>
-    <app-add-product *ngIf='changeMode' [productToAdd]='productToAdd' [company]='company'></app-add-product>
+    <app-add-product *ngIf='changeMode' [productToAdd]='productToAdd' [company]='company' [message] = 'message'></app-add-product>
 </div>

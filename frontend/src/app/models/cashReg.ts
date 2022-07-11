@@ -1,8 +1,8 @@
 import { Table } from "./table";
 
 export class CashReg {
-    location: string;
-    cgType: string;
+    location: string = '';
+    cgType: string = '';
     departments : Department[] = new Array<Department>();
 
 }

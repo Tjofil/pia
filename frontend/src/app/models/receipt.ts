@@ -1,5 +1,7 @@
+import { Product } from "./product";
+
 export class Receipt {
-    items : Item[] = new Array<Item>();
+    items: Item[] = new Array<Item>();
     closingDate: Date;
     payementMethod: string = '';
     value: number; //taxIncluded
@@ -12,16 +14,17 @@ export class Receipt {
 
     virmanTaxId: number;
 
-    buyerId : number;
-    buyerName : string = '';
-    buyerSurname : string = '';
+    buyerId: number;
+    buyerName: string = '';
+    buyerSurname: string = '';
 
     location: string = '';
     department: string = '';
-    tableId : number;
+    tableId: string = '';
 }
 
 export class Item {
-    name : string ;
-    amount : number;
+    product: Product = new Product()
+    amount: number;
+    sellingPrice: number;
 }

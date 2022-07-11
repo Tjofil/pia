@@ -1,4 +1,4 @@
 export class BankAccount {
-    bankName : string;
-    accountId : string;
+    bankName : string = '';
+    accountId : string = '';
 }

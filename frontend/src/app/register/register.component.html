@@ -1,76 +1,97 @@
-<div fxLayout='column' fxLayoutAlign='space-between center' class = 'center'>
-    <br />
-    <mat-form-field appearance='fill'>
-        <mat-label>Корисничко име</mat-label>
-        <input matInput [(ngModel)]='username'>
-    </mat-form-field>
-    <div>
+<div fxLayout='column' fxLayoutAlign='space-between center'>
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Корисничко име</mat-label>
+                <input matInput [(ngModel)]='username'>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Контакт телефон</mat-label>
-            <input matInput [(ngModel)]='phone'>
-        </mat-form-field>
-        <mat-form-field appearance='fill'>
-            <mat-label>Електронска пошта</mat-label>
-            <input matInput [(ngModel)]='mail'>
-        </mat-form-field>
+    </div>
+
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Контакт телефон</mat-label>
+                <input matInput [(ngModel)]='phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Електронска пошта</mat-label>
+                <input matInput [(ngModel)]='mail'>
+            </mat-form-field>
+        </div>
+
     </div>
 
 
-    <div>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Име</mat-label>
-            <input matInput [(ngModel)]='name'>
-        </mat-form-field>
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Име</mat-label>
+                <input matInput [(ngModel)]='name'>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance='fill'>
-            <mat-label>Презиме</mat-label>
-            <input matInput [(ngModel)]='surname'>
-        </mat-form-field>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Презиме</mat-label>
+                <input matInput [(ngModel)]='surname'>
+            </mat-form-field>
+        </div>
     </div>
 
-    <div>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Лозинка</mat-label>
-            <input matInput [(ngModel)]='password' type='password' ngModel
-                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$">
-        </mat-form-field>
-
-        <mat-form-field appearance='fill'>
-            <mat-label>Потврда лозинке</mat-label>
-            <input matInput [(ngModel)]='passwordRepeat' type='password'>
-        </mat-form-field>
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Лозинка</mat-label>
+                <input matInput [(ngModel)]='password' type='password'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Потврда лозинке</mat-label>
+                <input matInput [(ngModel)]='passwordRepeat' type='password'>
+            </mat-form-field>
+        </div>
     </div>
 
 
 
-    <div>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Назив предузећа</mat-label>
-            <input matInput [(ngModel)]='companyName'>
-        </mat-form-field>
-
-        <mat-form-field appearance='fill'>
-            <mat-label>Адреса предузећа</mat-label>
-            <input matInput [(ngModel)]='companyAdress'>
-        </mat-form-field>
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Назив предузећа</mat-label>
+                <input matInput [(ngModel)]='companyName'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Адреса предузећа</mat-label>
+                <input matInput [(ngModel)]='companyAdress' required='true'>
+            </mat-form-field>
+        </div>
     </div>
 
-    <div>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>ПИБ</mat-label>
-            <input matInput [(ngModel)]='taxId' ngModel pattern="[1-9]{1}[0-9]{8}">
-        </mat-form-field>
-
-        <mat-form-field appearance='fill'>
-            <mat-label>Матични број предузећа</mat-label>
-            <input matInput [(ngModel)]='regId'>
-        </mat-form-field>
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>ПИБ</mat-label>
+                <input matInput [(ngModel)]='taxId' ngModel pattern="[1-9]{1}[0-9]{8}">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance='fill' class='form-field'>
+                <mat-label>Матични број предузећа</mat-label>
+                <input matInput [(ngModel)]='regId'>
+            </mat-form-field>
+        </div>
     </div>
 
     <input #logoInput type="file" class="file-input" accept=".jpg,.png" (change)="onImageAttached()" #fileUpload>
 
-    <div class="spaced-box">
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
         <div style='padding-right: 40px;'>
             <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
                 <mat-icon>attach_file</mat-icon>
@@ -79,7 +100,7 @@
 
         </div>
         <button mat-raised-button (click)='register()' color='primary'>
-            <ng-container *ngIf = 'isCustomer else company'>Региструј наручиоца</ng-container>
+            <ng-container *ngIf='isCustomer else company'>Региструј наручиоца</ng-container>
             <ng-template #company>Региструј фирму</ng-template>
 
         </button>

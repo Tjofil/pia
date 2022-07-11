@@ -13,4 +13,17 @@ export class AdminController {
             }
         })
     }
+
+    update = (req: express.Request, res: express.Response) => {
+        AdminModel.update({ username: req.body.username }, req.body, (err) => {
+            if (err) {
+                console.log(err)
+                res.json({ status: 'Неуспешно ажурирање: Непозната грешка.' })
+            } else {
+                res.json({ status: 'updated' })
+            }
+        });
+    }
+
+
 }
