@@ -45,11 +45,11 @@ export class DialogComponent implements OnInit {
   }
 
   tryAppointment(product: Product) {
-    if (product.categoryName != '') {
-      this.message = 'Неуспешна додела: Артикал ' + product.name + ' већ припада категорији ' + product.categoryName;
+    if (product.category.name != '') {
+      this.message = 'Неуспешна додела: Артикал ' + product.name + ' већ припада категорији ' + product.category.name;
       return;
     }
-    product.categoryName = this.data.category.name;
+    product.category = JSON.parse(JSON.stringify(this.data.category));
     this.companyService.update(this.data.company).subscribe(response => {
       if (response['status'] == 'updated') {
         this.message = this.successAppointment;

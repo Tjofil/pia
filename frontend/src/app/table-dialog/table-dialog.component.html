@@ -1,23 +1,33 @@
-<div fxLayout='column' fxLayoutAlign='space-between center'>
-    <div>
+<div fxLayout='column' fxLayoutAlign='center'>
+    <div fxLayoutAlign='center center'>
         <h4>Унесите податке за нови сто.</h4>
     </div>
-    <div>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Идентификатор</mat-label>
-            <input matInput [(ngModel)]='id'>
-        </mat-form-field>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Пречник</mat-label>
-            <input matInput [(ngModel)]='radius'>
-        </mat-form-field>
+    <div fxLayout='row wrap' fxLayoutAlign='center'>
+        <div>
+            <mat-form-field appearance='fill' class='reg-form-field'>
+                <mat-label>Идентификатор</mat-label>
+                <input matInput [(ngModel)]='id'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance='fill' class='reg-form-field'>
+                <mat-label>Пречник</mat-label>
+                <input matInput [(ngModel)]='radius'>
+                <mat-hint align="start"> Вредност између 50 и 200 </mat-hint>
+            </mat-form-field>
+        </div>
     </div>
-    <div style='width: 100%;' class='center'>
-        <mat-checkbox color='primary' style='margin-right: 5%;' [(ngModel)]='round'>Округао
-        </mat-checkbox>
-        <button mat-raised-button (click)='addTable()' color='primary'>Додај</button>
+    <div style='width: 100%; margin-top: 3%;' fxLayoutAlign='center' fxLayout='column'>
+        <mat-radio-group fxLayout='row wrap' fxLayoutAlign='space-evenly center' color='primary' [(ngModel)]='round'
+            aria-labelledby='mode-radio-group'>
+            <mat-radio-button [value]='true'>Округао
+            </mat-radio-button>
+            <mat-radio-button [value]='false'>Правоугаони</mat-radio-button>
+            <button mat-raised-button (click)='addTable()' color='primary'>Додај</button>
+        </mat-radio-group>
+
     </div>
-    <div class='center' style = 'margin-top: 3%;'>
+    <div class='center' style='margin-top: 3%;'>
         <p [ngClass]="{ 'invisible' : message == 'dummy', 'error-msg' : message != 'dummy' }">{{message}}
         </p>
     </div>

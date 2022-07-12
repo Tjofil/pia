@@ -129,15 +129,51 @@ export class ReceiptComponent implements OnInit {
     this.expandingReceipts.push(receipt);
   }
 
+  remaining(item: Item, receipt: Receipt): number {
+    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == this.currentLocation)[0];
+    let minus: number = 0;
+    if (item.product.name == '') {
+      return 0;
+    }
+    for (let i = 0; i < receipt.items.length; ++i) {
+      if (receipt.items[i].amount != undefined && !isNaN(receipt.items[i].amount) && receipt.items[i].product.name == item.product.name) {
+        minus = minus + receipt.items[i].amount;
+      }
+    }
+    return stat.currAmount - minus;
+  }
+
+  isNum(num) {
+    return !isNaN(num);
+  }
+
   closeReceipt(receipt: Receipt, event) {
     event.stopPropagation()
     if (receipt.items.length == 0) {
       this.message = 'За затварање рачуна потребна је најмање једна ставка.'
       return;
     }
+    if (receipt.items.filter((item: Item) =>
+      item.product.name == ''
+    ).length) {
+      this.message = 'Додати артикли морају бити попуњени.'
+      return;
+    }
+    if (receipt.items.filter((item: Item) =>
+      item.amount == undefined || isNaN(item.amount) || item.amount == 0
+    ).length) {
+      this.message = 'Количине морају бити у исправном формату (бројеви већи од 0).';
+      return;
+    }
+    if (receipt.items.filter((item: Item) =>
+      this.remaining(item, receipt) < 0
+    ).length) {
+      this.message = 'Не може се затворити рачун који није покривен лагером.'
+      return;
+    }
     const dialogRef = this.dialog.open(ReceiptDialogComponent, {
-      height: '300px',
-      width: '500px',
+      height: '340px',
+      width: '520px',
       data: {
         receipt: receipt,
         customers: this.company.customers,
@@ -172,6 +208,7 @@ export class ReceiptComponent implements OnInit {
     let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
     return stat.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
   }
+
 
 
 }

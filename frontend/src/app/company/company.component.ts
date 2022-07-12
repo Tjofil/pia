@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { Company } from '../models/company';
 import { CompanyService } from '../services/company.service';
@@ -23,10 +23,14 @@ export interface PeriodicElement {
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent implements OnInit, OnDestroy {
 
   constructor(private companyService: CompanyService, private router: Router) {
 
+  }
+
+  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    sessionStorage.setItem('logged', JSON.stringify(this.myCompany));
   }
   successUpdate: string = 'Подаци успешно измењени.'
   myCompany: Company;
@@ -39,6 +43,10 @@ export class CompanyComponent implements OnInit {
     if (this.myCompany == null) {
       this.message = 'Нисте улоговани.'
     }
+  }
+
+  ngOnDestroy(): void {
+    sessionStorage.setItem('logged', JSON.stringify(this.myCompany));
   }
 
   addBankItem(array, index) {

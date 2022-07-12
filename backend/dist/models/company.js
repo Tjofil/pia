@@ -76,36 +76,37 @@ let Company = new Schema({
                     }]
             }]
     },
-    products: {
-        type: [{
-                code: String,
-                name: String,
-                unit: String,
-                taxRate: Number,
-                producer: String,
-                prodType: String,
-                countryOrigin: String,
-                foreignName: String,
-                barcode: Number,
-                customsTariff: Number,
-                enforceTax: Boolean,
-                enforceExcise: Boolean,
-                minAmountGlobal: Number,
-                maxAmountGlobal: Number,
-                description: String,
-                declaration: String,
-                warehouseStats: [{
-                        warehouseName: String,
-                        purchasePrice: Number,
-                        sellingPrice: Number,
-                        currAmount: Number,
-                        minAmount: Number,
-                        maxAmount: Number,
-                    }],
-                categoryName: String,
-                picture: String
-            }]
-    },
+    products: [{
+            code: String,
+            name: String,
+            unit: String,
+            taxRate: Number,
+            producer: String,
+            prodType: String,
+            countryOrigin: String,
+            foreignName: String,
+            barcode: Number,
+            customsTariff: Number,
+            enforceTax: Boolean,
+            enforceExcise: Boolean,
+            minAmountGlobal: Number,
+            maxAmountGlobal: Number,
+            description: String,
+            declaration: String,
+            warehouseStats: [{
+                    warehouseName: String,
+                    purchasePrice: Number,
+                    sellingPrice: Number,
+                    currAmount: Number,
+                    minAmount: Number,
+                    maxAmount: Number,
+                }],
+            category: {
+                parent: String,
+                name: String
+            },
+            picture: String
+        }],
     customers: [{
             taxId: Number,
             name: String,
@@ -118,34 +119,37 @@ let Company = new Schema({
         }],
     pendingReceipts: [{
             items: [{
-                    product: [{
-                            code: String,
-                            name: String,
-                            unit: String,
-                            taxRate: Number,
-                            producer: String,
-                            prodType: String,
-                            countryOrigin: String,
-                            foreignName: String,
-                            barcode: Number,
-                            customsTariff: Number,
-                            enforceTax: Boolean,
-                            enforceExcise: Boolean,
-                            minAmountGlobal: Number,
-                            maxAmountGlobal: Number,
-                            description: String,
-                            declaration: String,
-                            warehouseStats: [{
-                                    warehouseName: String,
-                                    purchasePrice: Number,
-                                    sellingPrice: Number,
-                                    currAmount: Number,
-                                    minAmount: Number,
-                                    maxAmount: Number,
-                                }],
-                            categoryName: String,
-                            picture: String
-                        }],
+                    product: {
+                        code: String,
+                        name: String,
+                        unit: String,
+                        taxRate: Number,
+                        producer: String,
+                        prodType: String,
+                        countryOrigin: String,
+                        foreignName: String,
+                        barcode: Number,
+                        customsTariff: Number,
+                        enforceTax: Boolean,
+                        enforceExcise: Boolean,
+                        minAmountGlobal: Number,
+                        maxAmountGlobal: Number,
+                        description: String,
+                        declaration: String,
+                        warehouseStats: [{
+                                warehouseName: String,
+                                purchasePrice: Number,
+                                sellingPrice: Number,
+                                currAmount: Number,
+                                minAmount: Number,
+                                maxAmount: Number,
+                            }],
+                        category: {
+                            parent: String,
+                            name: String
+                        },
+                        picture: String
+                    },
                     amount: Number,
                     sellingPrice: Number
                 }],
@@ -164,8 +168,39 @@ let Company = new Schema({
         }],
     closedReceipts: [{
             items: [{
-                    name: String,
+                    product: {
+                        code: String,
+                        name: String,
+                        unit: String,
+                        taxRate: Number,
+                        producer: String,
+                        prodType: String,
+                        countryOrigin: String,
+                        foreignName: String,
+                        barcode: Number,
+                        customsTariff: Number,
+                        enforceTax: Boolean,
+                        enforceExcise: Boolean,
+                        minAmountGlobal: Number,
+                        maxAmountGlobal: Number,
+                        description: String,
+                        declaration: String,
+                        warehouseStats: [{
+                                warehouseName: String,
+                                purchasePrice: Number,
+                                sellingPrice: Number,
+                                currAmount: Number,
+                                minAmount: Number,
+                                maxAmount: Number,
+                            }],
+                        category: {
+                            parent: String,
+                            name: String
+                        },
+                        picture: String
+                    },
                     amount: Number,
+                    sellingPrice: Number
                 }],
             closingDate: Date,
             payementMethod: String,

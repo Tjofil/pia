@@ -55,8 +55,7 @@
                         <mat-list-item [disableRipple]="true">
                             {{item.product.name}} - {{item.amount}} ({{item.product.unit}})
                             <div style="position:absolute; right: 2%">
-                                Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
-                                item).toFixed(2)}}) ДИН
+                                Цена (порез) : {{valueOf(item).toFixed(2)}} ({{taxAmount(item).toFixed(2)}}) ДИН
                             </div>
                         </mat-list-item>
                     </ng-container>

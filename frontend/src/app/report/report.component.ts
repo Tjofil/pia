@@ -46,14 +46,12 @@ export class ReportComponent implements OnInit {
     console.log(this.company.closedReceipts.length)
   }
 
-  taxAmount(receipt, item: Item) {
-    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-    return stat.sellingPrice * item.amount * (item.product.taxRate / 100.0);
+  taxAmount(item: Item) {
+    return item.sellingPrice * item.amount * (item.product.taxRate / 100.0);
   }
 
-  valueOf(receipt, item) {
-    let stat: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == receipt.location)[0];
-    return stat.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
+  valueOf(item) {
+    return item.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
   }
 
   sumForDay() {

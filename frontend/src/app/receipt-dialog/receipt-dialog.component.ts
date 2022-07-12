@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Customer } from '../models/customer';
 import { Product, WarehouseStat } from '../models/product';
-import { Receipt } from '../models/receipt';
+import { Item, Receipt } from '../models/receipt';
 
 @Component({
   selector: 'app-receipt-dialog',
@@ -18,7 +18,7 @@ export class ReceiptDialogComponent implements OnInit {
   ) { }
 
 
-  message: string = 'dummy'
+  message: string = ''
 
   ngOnInit(): void {
   }
@@ -31,23 +31,45 @@ export class ReceiptDialogComponent implements OnInit {
   close() {
     let value = 0;
     let tax = 0;
-    this.data.receipt.items.forEach(item => {
+    let rec: Receipt = this.data.receipt;
+    rec.items.forEach(item => {
       let product: Product = this.data.products.filter(product => product.name == item.product.name)[0];
-      let stats: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == this.data.receipt.location)[0];
-      let localTax = item.sellingPrice * item.amount * (item.product.taxRate / 100.0)
+      let stats: WarehouseStat = product.warehouseStats.filter(stat => stat.warehouseName == rec.location)[0];
+      let localTax = stats.sellingPrice * item.amount * (item.product.taxRate / 100.0)
       stats.currAmount -= item.amount;
       tax += localTax;
       value += stats.sellingPrice * item.amount + localTax;
+      item.sellingPrice = stats.sellingPrice;
     });
-    this.data.receipt.value = value;
-    this.data.receipt.tax = tax;
-    if (this.data.receipt.payementMethod == 'cash') {
-      this.data.receipt.cashChange = this.data.receipt.cashGiven - this.valueOf(this.data.receipt);
+    if (rec.payementMethod == 'cash' && (rec.cashGiven == undefined || isNaN(rec.cashGiven))) {
+      this.message = 'Количина плаћеног новца мора бити број.'
+      return;
     }
-    if (this.data.receipt.payementMethod == 'virman') {
+    if (rec.payementMethod == 'check' && (rec.buyerName == '' || rec.buyerSurname == '')) {
+      this.message = 'Сви подаци су обавезни.';
+      return;
+    }
+    if (rec.payementMethod == 'check' && (rec.buyerId == undefined || isNaN(rec.buyerId))) {
+      this.message = 'Број ЛК мора бити у исправном формату.';
+      return;
+    }
+    if (rec.payementMethod == 'virman' && rec.virmanTaxId == undefined) {
+      this.message = 'Наручиоц мора бити одабран.'
+      return;
+    }
+    if (rec.payementMethod == 'card' && (rec.buyerId == undefined || isNaN(rec.buyerId) || rec.slypReceipt == undefined || isNaN(rec.slypReceipt))) {
+      this.message = 'Сви подаци морају бити унети у исправном формату.'
+      return;
+    }
+    rec.value = value;
+    rec.tax = tax;
+    if (rec.payementMethod == 'cash') {
+      rec.cashChange = rec.cashGiven - rec.value;
+    }
+    if (rec.payementMethod == 'virman') {
       this.data.customers.forEach(customer => {
-        if (customer.taxId == this.data.receipt.virmanTaxId) {
-          this.data.receipt.value *= (1.0 - (customer.rebate / 100.0));
+        if (customer.taxId == rec.virmanTaxId) {
+          rec.value *= (1.0 - (customer.rebate / 100.0));
         }
       });
     }
@@ -59,9 +81,10 @@ export class ReceiptDialogComponent implements OnInit {
   }
 
   valueOf(receipt: Receipt) {
-    let value = 0;
-    this.data.receipt.items.forEach(item => {
-      value += item.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
+    let value: number = 0;
+    this.data.receipt.items.forEach((item: Item) => {
+      let stats: WarehouseStat = item.product.warehouseStats.filter(stat => stat.warehouseName == this.data.receipt.location)[0];
+      value += stats.sellingPrice * item.amount * (1.0 + item.product.taxRate / 100.0);
     });
     return value;
   }

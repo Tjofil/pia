@@ -26,6 +26,18 @@ export class TableDialogComponent implements OnInit {
 
 
   addTable() {
+    if (this.id == '') {
+      this.message = 'Сто мора имати идентификатор.'
+      return;
+    }
+    if (this.radius == undefined || isNaN(this.radius)) {
+      this.message = 'Неисправан формат пречника.'
+      return;
+    }
+    if (this.radius < 50 || this.radius > 200) {
+      this.message = 'Недозвољене димензије стола.'
+      return;
+    }
     let departments = this.data.location.departments;
     for (let i = 0; i < departments.length; ++i) {
       if (departments[i].tables.filter(table => table.id == this.id).length) {
@@ -33,7 +45,6 @@ export class TableDialogComponent implements OnInit {
         return;
       }
     }
-
     this.dialogRef.close({ id: this.id, radius: this.radius, round: this.round });
   }
 

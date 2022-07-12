@@ -20,7 +20,7 @@
                         <mat-icon *ngIf='!expandingReceipts.includes(receipt)'>keyboard_arrow_right</mat-icon>
                         <mat-icon *ngIf='expandingReceipts.includes(receipt)'>keyboard_arrow_down</mat-icon>
                     </div>
-                    {{receipt.location}} - Отворени рачун бр. {{i}}
+                    {{receipt.location}} - Отворени рачун бр. {{i + 1}}
                     <ng-container *ngIf='receipt.department != ""'>
                         | {{receipt.department}} | {{receipt.tableId}}
                     </ng-container>
@@ -46,7 +46,7 @@
 
                             <mat-form-field>
                                 <mat-label>Артикал</mat-label>
-                                <mat-select [(ngModel)]='item.product' required="true">
+                                <mat-select [(ngModel)]='item.product'>
                                     <mat-option *ngFor='let product of company.products' [value]='product'>
                                         {{product.name}}
                                     </mat-option>
@@ -56,10 +56,19 @@
                             <mat-form-field style='margin-left: 4%; margin-right: 4%;'>
                                 <mat-label>Количина {{item.product.unit}}
                                 </mat-label>
-                                <input matInput [(ngModel)]='item.amount'>
+                                <input matInput [(ngModel)]='item.amount' type='number'>
                             </mat-form-field>
-                            <ng-container *ngIf='item.product != undefined && item.amount != undefined'>
-                                Цена (порез) : {{(valueOf(receipt, item)).toFixed(2)}} ({{taxAmount(receipt,
+                            <ng-container *ngIf='item.product.name != ""'>
+                                <div [ngClass]="{'error-msg' : remaining(item, receipt) < 0}">
+                                    {{(remaining(item, receipt) < 0 ? "Недовољна количина на лагеру"
+                                        : "Стање на лагеру: " + remaining(item, receipt) + ' ' +
+                                        item.product.unit)}}</div>
+
+                            </ng-container>
+                            <ng-container
+                                *ngIf='item.product != undefined && item.amount != undefined && remaining(item, receipt) >= 0'>
+                                ,&nbsp;&nbsp;Цена (порез) : {{(valueOf(receipt, item)).toFixed(2)}}
+                                ({{taxAmount(receipt,
                                 item).toFixed(2)}}) ДИН
                             </ng-container>
                             <div style='position: absolute; right: 1%;'>
@@ -74,6 +83,9 @@
             <mat-divider></mat-divider>
         </mat-nav-list>
     </div>
-    {{message}}
+    <div class='center' style='margin-top: 3%'>
+        <p [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">{{message}}
+        </p>
+    </div>
 
 </div>

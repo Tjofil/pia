@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BankAccount } from '../models/bankAcount';
 import { CashReg, Department } from '../models/cashReg';
+import { Category } from '../models/category';
 import { Customer } from '../models/customer';
 import { Product } from '../models/product';
 import { Receipt } from '../models/receipt';
@@ -49,6 +50,7 @@ export class CompanyService {
       cashRegs: [new CashReg()],
       products: new Array<Product>(),
       customers: new Array<Customer>(),
+      categories: new Array<Category>(),
       pendingReceipts: new Array<Receipt>(),
       closedReceipts: new Array<Receipt>()
     }

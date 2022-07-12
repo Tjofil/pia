@@ -27,50 +27,53 @@
     </div>
     Кусур :
     <ng-container *ngIf='isNum()'>
-      {{data.receipt.cashGiven - valueOf(data.receipt)}}
+      {{(data.receipt.cashGiven - valueOf(data.receipt) < 0) ?'Недовољно новца.' : (data.receipt.cashGiven -
+        valueOf(data.receipt))}} </ng-container>
     </ng-container>
-  </ng-container>
 
-  <ng-container *ngIf='data.receipt.payementMethod == "check"'>
-    <mat-form-field appearance='fill' class='reg-form-field'>
-      <mat-label>Број личне карте</mat-label>
-      <input matInput [(ngModel)]='data.receipt.buyerId'>
-    </mat-form-field>
-    <div>
-      <mat-form-field appearance='fill' class='reg-form-field'>
-        <mat-label>Име</mat-label>
-        <input matInput [(ngModel)]='data.receipt.buyerName'>
-      </mat-form-field>
-
-      <mat-form-field appearance='fill'>
-        <mat-label>Презиме</mat-label>
-        <input matInput [(ngModel)]='data.receipt.buyerSurname'>
-      </mat-form-field>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf='data.receipt.payementMethod == "card"'>
-    <div>
+    <ng-container *ngIf='data.receipt.payementMethod == "check"'>
       <mat-form-field appearance='fill' class='reg-form-field'>
         <mat-label>Број личне карте</mat-label>
         <input matInput [(ngModel)]='data.receipt.buyerId'>
       </mat-form-field>
+      <div>
+        <mat-form-field appearance='fill' class='reg-form-field'>
+          <mat-label>Име</mat-label>
+          <input matInput [(ngModel)]='data.receipt.buyerName'>
+        </mat-form-field>
 
-      <mat-form-field appearance='fill'>
-        <mat-label>Слип рачун</mat-label>
-        <input matInput [(ngModel)]='data.receipt.slypReceipt'>
+        <mat-form-field appearance='fill'>
+          <mat-label>Презиме</mat-label>
+          <input matInput [(ngModel)]='data.receipt.buyerSurname'>
+        </mat-form-field>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf='data.receipt.payementMethod == "card"'>
+      <div>
+        <mat-form-field appearance='fill' class='reg-form-field'>
+          <mat-label>Број личне карте</mat-label>
+          <input matInput [(ngModel)]='data.receipt.buyerId'>
+        </mat-form-field>
+
+        <mat-form-field appearance='fill'>
+          <mat-label>Слип рачун</mat-label>
+          <input matInput [(ngModel)]='data.receipt.slypReceipt'>
+        </mat-form-field>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf='data.receipt.payementMethod == "virman"'>
+      <mat-form-field appearance='fill' style='margin-right: 3%;'>
+        <mat-label>Наручиоц</mat-label>
+        <mat-select [(ngModel)]='data.receipt.virmanTaxId' required="true">
+          <mat-option *ngFor='let customer of data.customers' [value]='customer.taxId'>{{customer.name}}</mat-option>
+        </mat-select>
       </mat-form-field>
+    </ng-container>
+    <div class='center' style='margin-top: 3%'>
+      <p class='error-msg'>{{message}}
+      </p>
     </div>
-  </ng-container>
-
-  <ng-container *ngIf='data.receipt.payementMethod == "virman"'>
-    <mat-form-field appearance='fill' style='margin-right: 3%;'>
-      <mat-label>Наручиоц</mat-label>
-      <mat-select [(ngModel)]='data.receipt.virmanTaxId' required="true">
-        <mat-option *ngFor='let customer of data.customers' [value]='customer.taxId'>{{customer.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </ng-container>
-
 
 </div>

@@ -25,7 +25,7 @@ export class TablesComponent implements OnInit {
   condition: boolean = false;
   successUpdate: string = 'Распоред успешно сачуван.'
 
-  newDepartment: string;
+  newDepartment: string = '';
 
   constructor(private companyService: CompanyService, public dialog: MatDialog) {
   }
@@ -58,11 +58,20 @@ export class TablesComponent implements OnInit {
   }
 
   addDepartment() {
+    if (this.newDepartment == '') {
+      this.message = 'Ново одељење мора имати име.';
+      return;
+    }
+    if (this.reg.departments.filter((dept: Department) => dept.name == this.newDepartment).length) {
+      this.message = 'Већ постоји одељење са задатим именом.'
+      return;
+    }
     let departmentToAdd = new Department();
     departmentToAdd.name = this.newDepartment;
     this.reg.departments.push(departmentToAdd);
     this.companyService.update(this.company).subscribe(response => {
       if (response['status'] == 'updated') {
+        this.message = ''
       } else {
         this.message = response['status'];
       }
@@ -101,9 +110,13 @@ export class TablesComponent implements OnInit {
 
 
   addTable() {
+    if (this.reg.departments.length == 0) {
+      this.message = 'Мора постојати одељење за додавање стола.'
+      return;
+    }
     const dialogRef = this.dialog.open(TableDialogComponent, {
-      height: '250px',
-      width: '500px',
+      height: '310px',
+      width: '650px',
       data: { location: this.reg }
     });
 
@@ -120,13 +133,13 @@ export class TablesComponent implements OnInit {
         for (let i = 0; i < tables.length; ++i) {
           let div = this.divs.get(skip + i).nativeElement.getBoundingClientRect();
           if (moving.top <= div.bottom && moving.bottom >= div.top && moving.left <= div.right && moving.right >= div.left) {
-            this.message = 'Молим вас направите места за нови сто(горњи леви ћошак просторије).'
+            this.message = 'Молим вас направите места за нови сто (горњи леви ћошак одељења).'
             return;
           }
         }
         let newTable = new Table(result.id, result.radius, result.round);
         this.reg.departments[this.currTabIdx].tables.push(newTable);
-
+        this.message = ''
       }
     });
 
