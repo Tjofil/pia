@@ -12,8 +12,8 @@
     </div>
     <div style='width:100%'>
         <mat-nav-list>
+            <mat-divider></mat-divider>
             <ng-container *ngFor='let receipt of company.pendingReceipts; let i = index;'>
-                <mat-divider></mat-divider>
                 <mat-list-item *ngIf='receipt.location == currentLocation' (click)=onSelect(receipt)>
 
                     <div style='margin-right: 3%;'>
@@ -63,7 +63,6 @@
                                     {{(remaining(item, receipt) < 0 ? "Недовољна количина на лагеру"
                                         : "Стање на лагеру: " + remaining(item, receipt) + ' ' +
                                         item.product.unit)}}</div>
-
                             </ng-container>
                             <ng-container
                                 *ngIf='item.product != undefined && item.amount != undefined && remaining(item, receipt) >= 0'>
@@ -79,8 +78,8 @@
                         </mat-list-item>
                     </ng-container>
                 </mat-list>
+                <mat-divider></mat-divider>
             </ng-container>
-            <mat-divider></mat-divider>
         </mat-nav-list>
     </div>
     <div class='center' style='margin-top: 3%'>

@@ -31,6 +31,10 @@ export class UserService {
     return this.http.post(`${this.backendUrl}/users/login`, data)
   }
 
+  changePass(data) {
+    return this.http.post(`${this.backendUrl}/user/changePass`, data);
+  }
+
   update(data) {
     return this.http.post(`${this.backendUrl}/users/update`, data);
   }

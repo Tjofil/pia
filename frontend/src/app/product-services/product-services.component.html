@@ -45,6 +45,7 @@
             <th mat-header-cell *matHeaderCellDef style='text-align: right; width: 1%;'></th>
             <td mat-cell *matCellDef="let element" style='text-align: right; width: 1%;'>
                 <mat-checkbox style='margin-left: 10%;' color='primary'
+                    [ngClass]='{"bleak-loc" : (bleakAdd || bleakEdit)}'
                     (change)="productSelected($event.checked, element)"></mat-checkbox>
             </td>
         </ng-container>
@@ -55,13 +56,20 @@
 
     <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[10]" aria-label="Одаберите страницу">
     </mat-paginator>
-    <div class='center'>
-        <button mat-raised-button color='primary' (click)='productManip(true)'>Измена</button>
-        <button #focusDiv class='divider-button' mat-raised-button color='primary'
-            (click)='deleteProducts()'>Обриши</button>
-        <button mat-raised-button color='primary' (click)='productManip(false)'>Додај</button>
+    <div fxLayout='row wrap' fxLayoutAlign='space-around center'>
+        <button mat-raised-button color='primary' (click)='productManip(true)'
+            [ngClass]='{"bleak-loc" : bleakEdit}'>Измена</button>
+
+        <button #focusDiv mat-raised-button color='primary' (click)='deleteProducts()'
+            [ngClass]='{"bleak-loc" : (bleakEdit || bleakAdd)}'>Обриши</button>
+
+        <button mat-raised-button color='primary' (click)='productManip(false)'
+            [ngClass]='{"bleak-loc" : bleakAdd}'>Додај</button>
+
+        <button mat-raised-button color='primary' (click)='cancelManip()'
+            [ngClass]='{"bleak-loc" : !(bleakAdd || bleakEdit)}'>Одустани</button>
     </div>
-    <div class='center'>
+    <div class='center' style='margin-top: 1.5%'>
         <p [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">{{message}}
         </p>
     </div>

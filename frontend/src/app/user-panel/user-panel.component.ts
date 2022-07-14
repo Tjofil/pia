@@ -20,6 +20,20 @@ export class UserPanelComponent implements OnInit {
   filteredCompanies: Company[] = []
   myUser: User;
   message: string = ''
+  dontRestore: boolean = false;
+  opened: boolean = false;
+
+  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    if (!this.dontRestore) {
+      sessionStorage.setItem('user-log', JSON.stringify(this.myUser));
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (!this.dontRestore) {
+      sessionStorage.setItem('user-log', JSON.stringify(this.myUser));
+    }
+  }
 
   @HostListener('input') oninput() {
     this.filteredCompanies = this.companies.filter(
@@ -28,10 +42,19 @@ export class UserPanelComponent implements OnInit {
       })
   }
 
+  logout() {
+    this.dontRestore = true;
+    sessionStorage.clear();
+    this.router.navigate(['/']);
+  }
+
+
+
   ngOnInit(): void {
-    this.myUser = JSON.parse(sessionStorage.getItem('logged'));
+    this.myUser = JSON.parse(sessionStorage.getItem('user-log'));
     if (this.myUser == null) {
       this.message = 'Нисте улоговани.'
+      this.router.navigate(['']);
     }
     this.companyService.getAll().subscribe((response: Company[]) => {
       this.filteredCompanies = this.companies = response;
@@ -48,13 +71,6 @@ export class UserPanelComponent implements OnInit {
       this.state = state;
     }
   }
-
-  logout() {
-    sessionStorage.clear();
-    this.router.navigate(['/']);
-  }
-
-
 
   getArticles(company: Company) {
     const dialogRef = this.dialog.open(ArticleDetailsComponent, {

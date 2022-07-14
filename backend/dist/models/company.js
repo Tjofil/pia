@@ -67,7 +67,7 @@ let Company = new Schema({
                 departments: [{
                         name: String,
                         tables: [{
-                                id: Number,
+                                id: String,
                                 pos: { x: Number, y: Number },
                                 lastOk: { x: Number, y: Number },
                                 radius: Number,

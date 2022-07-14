@@ -30,7 +30,7 @@ export class AdminComponent implements OnInit {
         return;
       }
       this.message = '';
-      sessionStorage.setItem('logged', JSON.stringify(loggedIn))
+      sessionStorage.setItem('admin-log', JSON.stringify(loggedIn))
       this.router.navigate(['admin-panel']);
     });
   }

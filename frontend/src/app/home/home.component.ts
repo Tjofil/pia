@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
           return;
         }
         this.message = '';
-        sessionStorage.setItem('logged', JSON.stringify(loggedIn))
+        sessionStorage.setItem('company-log', JSON.stringify(loggedIn))
         this.router.navigate(['company']);
       });
     } else {
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
           return;
         }
         this.message = '';
-        sessionStorage.setItem('logged', JSON.stringify(loggedIn))
+        sessionStorage.setItem('user-log', JSON.stringify(loggedIn))
         this.router.navigate(['user-panel']);
       });
     }
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
 
 
   taxAmount(receipt, item: Item) {
-    return item.product.taxRate * item.sellingPrice * item.amount
+    return (1.0 * item.product.taxRate / 100.0) * item.sellingPrice * item.amount
   }
 
   valueOf(receipt, item) {
@@ -114,8 +114,8 @@ export class HomeComponent implements OnInit {
 
   getMethod(receipt: Receipt) {
     if (receipt.payementMethod == 'cash') return "Готовина, плаћено: " + receipt.cashGiven + ' ДИН, кусур: ' + receipt.cashChange + ' ДИН'
-    if (receipt.payementMethod == 'card') return 'Чек'
-    if (receipt.payementMethod == 'card') return 'Вирман'
+    if (receipt.payementMethod == 'check') return 'Чек'
+    if (receipt.payementMethod == 'virman') return 'Вирман'
     else return 'Картица, број слип рачуна: ' + receipt.slypReceipt
   }
 

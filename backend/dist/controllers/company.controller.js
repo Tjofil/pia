@@ -85,6 +85,32 @@ class CompanyController {
                 }
             });
         };
+        this.changePass = (req, res) => {
+            company_1.default.findOne({ username: req.body.username }, (err, company) => {
+                if (err || company == null) {
+                    console.log(err);
+                    res.json({ status: 'Непозната грешка.' });
+                }
+                else {
+                    if (req.body.oldPassword != company.password) {
+                        res.json({ status: 'Унета неисправна стара лозинка.' });
+                    }
+                    else if (company.password == req.body.password) {
+                        res.json({ status: 'Нова лозинка не може бити иста као стара.' });
+                    }
+                    else {
+                        company_1.default.updateOne({ username: req.body.username }, { password: req.body.password }, (err, resp) => {
+                            if (err) {
+                                res.json({ status: 'Непозната грешка' });
+                            }
+                            else {
+                                res.json({ status: 'updated' });
+                            }
+                        });
+                    }
+                }
+            });
+        };
         this.getAll = (req, res) => {
             company_1.default.find({}, (err, companies) => {
                 if (err) {

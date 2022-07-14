@@ -4,7 +4,20 @@
         </h3>
     </div>
     <div style='width:100%'>
-        <mat-nav-list>
+        <mat-nav-list style='margin-bottom: 2%;'>
+            <mat-list-item>
+                <div style='margin-right: 3%' class='center'>
+                    <mat-icon class='invisible'>keyboard_arrow_right</mat-icon>
+                </div>
+                <div style='color: gray; '>
+                    Предузеће и детаљи локације
+
+                </div>
+
+                <div style='position: absolute; right: 1%; color: gray' class='center'>
+                    Вредност рачуна (са порезом)
+                </div>
+            </mat-list-item>
             <mat-divider></mat-divider>
             <ng-container *ngFor='let receipt of receipts'>
                 <mat-list-item (click)=onSelect(receipt)>
@@ -14,11 +27,12 @@
                         <mat-icon *ngIf='expandingReceipts.includes(receipt)'>keyboard_arrow_down</mat-icon>
                     </div>
 
-                    [ {{getCompany(receipt)}} | {{receipt.location}} | {{receipt.department}} | {{receipt.tableId}} ]
-                    Укупна
-                    вредност (са
-                    порезом):
-                    {{receipt.value}} ДИН
+
+                    {{getCompany(receipt)}}, {{receipt.location + (receipt.department != ''?(', ' + receipt.department +
+                    ', бр. стола ' + receipt.tableId) : '')}}
+                    <div style='position: absolute; right: 1%;' class=' center'>
+                        {{receipt.value}} ДИН
+                    </div>
 
                 </mat-list-item>
 
@@ -29,7 +43,7 @@
                     <ng-container *ngFor='let item of receipt.items'>
                         <mat-list-item [disableRipple]="true">
                             <mat-icon>arrow_right</mat-icon>
-                            {{item.product.name}} - {{item.amount}} ({{getUnit(item.product.unit)}})
+                            {{item.product.name}} - {{item.amount}} ({{item.product.unit}})
                             <div style="position:absolute; right: 2%">
                                 Цена (порез) : {{valueOf(receipt, item).toFixed(2)}} ({{taxAmount(receipt,
                                 item).toFixed(2)}}) ДИН
@@ -37,8 +51,8 @@
                         </mat-list-item>
                     </ng-container>
                 </mat-list>
+                <mat-divider></mat-divider>
             </ng-container>
-            <mat-divider></mat-divider>
         </mat-nav-list>
     </div>
 </div>

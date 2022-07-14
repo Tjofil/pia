@@ -45,6 +45,10 @@ export class ReceiptDialogComponent implements OnInit {
       this.message = 'Количина плаћеног новца мора бити број.'
       return;
     }
+    if (rec.payementMethod == 'cash' && rec.cashGiven < value) {
+      this.message = 'Количина плаћеног новца бити већа од вредности рачуна.'
+      return;
+    }
     if (rec.payementMethod == 'check' && (rec.buyerName == '' || rec.buyerSurname == '')) {
       this.message = 'Сви подаци су обавезни.';
       return;

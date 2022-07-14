@@ -51,6 +51,8 @@ export class TableDialogComponent implements OnInit {
   onNoClick() {
     this.dialogRef.close(null);
   }
+
+
 }
 
 export interface DialogData {

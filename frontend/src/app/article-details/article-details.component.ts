@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { CashReg } from '../models/cashReg';
-import { Product } from '../models/product';
+import { Product, WarehouseStat } from '../models/product';
 
 @Component({
   selector: 'app-article-details',
@@ -14,7 +14,7 @@ export class ArticleDetailsComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,) { }
 
-  displayedColumns: string[] = ['name', 'producer', 'cheapestPrice', 'availability'];
+  displayedColumns: string[] = ['name', 'producer', 'cheapestPrice'];
 
   @HostListener('input') oninput() {
     this.toDisplay = this.data.products.filter(
@@ -37,16 +37,28 @@ export class ArticleDetailsComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
-  isObject(warehouseName) {
-    for (let i = 0; i < this.data.cashRegs.length; ++i) {
-      if (this.data.cashRegs[i].location == warehouseName) {
-        return true;
-      }
-    }
-    return false;
+  isObject(warehouseName: string) {
+    return this.data.cashRegs.filter((reg: CashReg) =>
+      reg.location == warehouseName
+    ).length != 0
   }
 
-
+  isMinPrice(product: Product, val: Number): Boolean {
+    let temp = product.warehouseStats.filter((stat: WarehouseStat) =>
+      this.isObject(stat.warehouseName)
+    );
+    console.log()
+    temp = temp.filter((stat: WarehouseStat) =>
+      stat.currAmount != 0
+    )
+    if (temp.length == 0) {
+      return false;
+    }
+    temp.sort((stat1: WarehouseStat, stat2: WarehouseStat) => {
+      return stat1.sellingPrice - stat2.sellingPrice;
+    })
+    return temp[0].sellingPrice == val;
+  }
 
   getMinPrice(product: Product) {
     let min = 100000000000000000;

@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
 
   emailCheck = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
   passCheck = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
-  mobileCheck = new RegExp(/^[+]{1}[0-9]{8,10}$/)
+  mobileCheck = new RegExp(/^[+]{1}[0-9]{10,12}$/)
   taxIdCheck = new RegExp(/^[1-9]{1}[0-9]{8}$/)
 
   register() {
@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
       this.messageEvent.emit('Електронска пошта није у исправном формату.');
       return;
     }
-    if (!this.passCheck.test(this.password)) {
+    if (!this.passCheck.test(this.password) || this.password[0].toLocaleLowerCase() == this.password[0].toUpperCase()) {
       this.messageEvent.emit('Лозинка није у исправном формату.');
       return;
     }

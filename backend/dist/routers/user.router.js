@@ -8,6 +8,7 @@ const user_controller_1 = require("../controllers/user.controller");
 const userRouter = express_1.default.Router();
 userRouter.route('/login').post((req, res) => new user_controller_1.UserController().login(req, res));
 userRouter.route('/register').post((req, res) => new user_controller_1.UserController().register(req, res));
+userRouter.route('/changePass').post((req, res) => new user_controller_1.UserController().changePass(req, res));
 userRouter.route('/update').post((req, res) => new user_controller_1.UserController().update(req, res));
 exports.default = userRouter;
 //# sourceMappingURL=user.router.js.map

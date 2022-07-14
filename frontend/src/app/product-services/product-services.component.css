@@ -4,3 +4,8 @@
     margin-top: 1%;
     margin-bottom: 1%;
 }
+
+.bleak-loc {
+    pointer-events: none;
+    opacity: 0.75;
+}

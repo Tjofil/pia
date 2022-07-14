@@ -14,8 +14,8 @@ export class OrderComponent implements OnInit {
 
   @Input() company: Company;
 
-  newCategory: string;
-  newSubCategory: string;
+  newCategory: string = '';
+  newSubCategory: string = '';
   message: string = '';
   expansionMode: boolean = false;
   expandingCategories: Category[] = [];
@@ -44,6 +44,17 @@ export class OrderComponent implements OnInit {
   }
 
   createCategory() {
+    if (this.newCategory == '') {
+      this.message = 'Име категорије мора бити наведено.'
+      return;
+    }
+    if (this.company.categories.filter((category: Category) =>
+      category.name == this.newCategory
+    ).length) {
+      this.message = 'Већ постоји категорија са тим именом.'
+      return;
+    }
+    this.message = '';
     let categoryToAdd = new Category('', this.newCategory);
     this.company.categories.push(categoryToAdd);
     this.companyService.update(this.company).subscribe((response) => {
@@ -84,6 +95,17 @@ export class OrderComponent implements OnInit {
 
   confirmEdit(editee, event) {
     event.stopPropagation();
+    if (this.edited.name == '') {
+      this.message = 'Име категорије мора бити наведено.'
+      return;
+    }
+    if (this.company.categories.filter((category: Category) =>
+      this.edited.name == category.name
+    ).length) {
+      this.message = 'Већ постоји категорија са унесеним именом.';
+      return;
+    }
+    this.message = ''
     this.company.categories.forEach(category => {
       if (category.parent == this.edited.oldName && category.parent != '') {
         category.parent = this.edited.name;

@@ -30,9 +30,9 @@ export class ReceiptComponent implements OnInit {
   }
 
   openReceipt() {
-    if (this.company.cashRegs.filter((reg: CashReg) => {
-      reg.location == this.currentLocation;
-    }).length == 0 || this.company.category == 'store') {
+    if (this.company.cashRegs.filter((reg: CashReg) =>
+      reg.location == this.currentLocation
+    ).length == 0 || this.company.category == 'store') {
       let newReceipt = new Receipt();
       newReceipt.location = this.currentLocation;
       newReceipt.department = '';

@@ -81,6 +81,30 @@ export class CompanyController {
 
     }
 
+    changePass = (req: express.Request, res: express.Response) => {
+        CompanyModel.findOne({ username: req.body.username }, (err, company) => {
+            if (err || company == null) {
+                console.log(err)
+                res.json({ status: 'Непозната грешка.' });
+            } else {
+                if (req.body.oldPassword != company.password) {
+                    res.json({ status: 'Унета неисправна стара лозинка.' })
+                } else if (company.password == req.body.password) {
+                    res.json({ status: 'Нова лозинка не може бити иста као стара.' })
+                } else {
+                    CompanyModel.updateOne({ username: req.body.username }, { password: req.body.password }, (err, resp) => {
+                        if (err) {
+                            res.json({ status: 'Непозната грешка' });
+                        } else {
+                            res.json({ status: 'updated' })
+                        }
+                    })
+                }
+
+            }
+        })
+    }
+
     getAll = (req: express.Request, res: express.Response) => {
         CompanyModel.find({}, (err, companies) => {
             if (err) {
@@ -123,9 +147,9 @@ export class CompanyController {
                     });
                 });
                 dummy.sort((receipt1, receipt2) => {
-                    let date1 : Date = new Date(receipt1.closingDate);
-                    let date2 : Date = new Date(receipt2.closingDate);
-                    return date2.getTime() - date1.getTime() 
+                    let date1: Date = new Date(receipt1.closingDate);
+                    let date2: Date = new Date(receipt2.closingDate);
+                    return date2.getTime() - date1.getTime()
                 })
                 let toReturn = []
                 for (let i = 0; i < Math.min(dummy.length, 5); ++i) {

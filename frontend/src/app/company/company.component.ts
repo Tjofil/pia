@@ -30,23 +30,31 @@ export class CompanyComponent implements OnInit, OnDestroy {
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
-    sessionStorage.setItem('logged', JSON.stringify(this.myCompany));
+    if (!this.dontRestore) {
+      sessionStorage.setItem('company-log', JSON.stringify(this.myCompany));
+    }
   }
+
   successUpdate: string = 'Подаци успешно измењени.'
   myCompany: Company;
   message: string;
   bankMessage: string;
   state: string = 'welcome';
+  dontRestore: boolean = false;
+  opened: boolean = false;
 
   ngOnInit(): void {
-    this.myCompany = JSON.parse(sessionStorage.getItem('logged'));
+    this.myCompany = JSON.parse(sessionStorage.getItem('company-log'));
     if (this.myCompany == null) {
       this.message = 'Нисте улоговани.'
+      this.router.navigate(['']);
     }
   }
 
   ngOnDestroy(): void {
-    sessionStorage.setItem('logged', JSON.stringify(this.myCompany));
+    if (!this.dontRestore) {
+      sessionStorage.setItem('company-log', JSON.stringify(this.myCompany));
+    }
   }
 
   addBankItem(array, index) {
@@ -111,6 +119,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.dontRestore = true;
     sessionStorage.clear();
     this.router.navigate(['/']);
   }

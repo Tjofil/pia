@@ -1,7 +1,6 @@
 <mat-sidenav-container class="example-container">
-  <mat-sidenav mode="side" opened style='width: 200px; background-color: #3f51b5;'>
+  <mat-sidenav mode="side" [(opened)] ='opened' style='width: 200px; background-color: #3f51b5;'>
     <mat-nav-list>
-      <a mat-list-item routerLink="/" class='white-link'>Почетна</a>
       <a mat-list-item (click)="setState('passChange')" class='white-link'>Промена лозинке</a>
       <a mat-list-item (click)="setState('approvals')" class='white-link'>Захтеви</a>
       <a mat-list-item (click)="setState('states')" class='white-link'>Стања</a>
@@ -16,9 +15,13 @@
     </mat-nav-list>
   </mat-sidenav>
 
-
-
   <mat-sidenav-content>
+    <mat-toolbar color="primary" style="min-height: 60px !important; height: 60px !important;">
+      <button mat-button (click)='opened = !opened'>
+        <mat-icon>menu</mat-icon>
+      </button>
+      Контролни панел администратора
+    </mat-toolbar>
     <app-add-user *ngIf='state == "register"'></app-add-user>
     <app-pass-change *ngIf='state == "passChange"' [user]='null' [admin]='user' [company]='null'></app-pass-change>
     <ng-container *ngIf='state == "revenue"'>
@@ -140,5 +143,10 @@
         </mat-list>
       </div>
     </ng-container>
+    <mat-toolbar style="min-height: 30px !important; height: 30px !important; position: fixed;
+bottom: 0px; right: 0px;" color='primary'>
+      <span class="spacer"></span>
+      <span class="mat-body author">Copyright: Филип Дробњаковић 2022</span>
+    </mat-toolbar>
   </mat-sidenav-content>
 </mat-sidenav-container>

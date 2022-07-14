@@ -3,7 +3,7 @@
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Корисничко име</mat-label>
-                <input matInput [(ngModel)]='username'>
+                <input matInput [(ngModel)]='username' required='true'>
             </mat-form-field>
         </div>
 
@@ -13,13 +13,13 @@
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Контакт телефон</mat-label>
-                <input matInput [(ngModel)]='phone'>
+                <input matInput [(ngModel)]='phone' required='true'>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Електронска пошта</mat-label>
-                <input matInput [(ngModel)]='mail'>
+                <input matInput [(ngModel)]='mail' required='true'>
             </mat-form-field>
         </div>
 
@@ -30,29 +30,30 @@
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Име</mat-label>
-                <input matInput [(ngModel)]='name'>
+                <input matInput [(ngModel)]='name' required='true'>
             </mat-form-field>
         </div>
 
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Презиме</mat-label>
-                <input matInput [(ngModel)]='surname'>
+                <input matInput [(ngModel)]='surname' required='true'>
             </mat-form-field>
         </div>
     </div>
 
     <div fxLayout='row wrap' fxLayoutAlign='center'>
         <div>
-            <mat-form-field appearance='fill' class='form-field'>
+            <mat-form-field appearance='fill' class='form-field'
+                matTooltip='Најмање по једно велико и мало слово, број и специјални карактер, укупно најмање 8 карактера. Почетни карактер мора бити слово.'>
                 <mat-label>Лозинка</mat-label>
-                <input matInput [(ngModel)]='password' type='password'>
+                <input matInput [(ngModel)]='password' type='password' required='true'>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Потврда лозинке</mat-label>
-                <input matInput [(ngModel)]='passwordRepeat' type='password'>
+                <input matInput [(ngModel)]='passwordRepeat' type='password' required='true'>
             </mat-form-field>
         </div>
     </div>
@@ -63,28 +64,29 @@
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Назив предузећа</mat-label>
-                <input matInput [(ngModel)]='companyName'>
+                <input matInput [(ngModel)]='companyName' required='true'>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance='fill' class='form-field'>
                 <mat-label>Адреса предузећа</mat-label>
-                <input matInput [(ngModel)]='companyAdress' required='true'>
+                <input matInput [(ngModel)]='companyAdress' required='true' >
             </mat-form-field>
         </div>
     </div>
 
     <div fxLayout='row wrap' fxLayoutAlign='center'>
         <div>
-            <mat-form-field appearance='fill' class='form-field'>
+            <mat-form-field appearance='fill' class='form-field'
+                matTooltip='Деветоцифрен број који не сме почињати нулом.'>
                 <mat-label>ПИБ</mat-label>
-                <input matInput [(ngModel)]='taxId' ngModel pattern="[1-9]{1}[0-9]{8}">
+                <input matInput [(ngModel)]='taxId' ngModel pattern="[1-9]{1}[0-9]{8}" required='true'>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance='fill' class='form-field'>
-                <mat-label>Матични број предузећа</mat-label>
-                <input matInput [(ngModel)]='regId'>
+                <mat-label>Матични бр. предузећа</mat-label>
+                <input matInput [(ngModel)]='regId' required='true'>
             </mat-form-field>
         </div>
     </div>

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from "@angular/material/button";
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -60,6 +60,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TesterComponent } from './tester/tester.component';
 import { PassChangeComponent } from './pass-change/pass-change.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { AreYouSureComponent } from './are-you-sure/are-you-sure.component';
 
 
 
@@ -90,7 +91,8 @@ import { MatSliderModule } from '@angular/material/slider';
     UserReceiptsComponent,
     ExpenditureComponent,
     TesterComponent,
-    PassChangeComponent
+    PassChangeComponent,
+    AreYouSureComponent
   ],
   imports: [
     AppRoutingModule,
@@ -129,7 +131,8 @@ import { MatSliderModule } from '@angular/material/slider';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxChartsModule,
-    MatSliderModule
+    MatSliderModule,
+    MatTooltipModule
 
   ],
   providers: [MatDatepickerModule],

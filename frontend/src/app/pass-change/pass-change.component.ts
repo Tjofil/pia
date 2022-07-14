@@ -24,6 +24,9 @@ export class PassChangeComponent implements OnInit {
   pass1: string = ''
   pass2: string = ''
   message: string = ''
+
+  passCheck = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
+
   ngOnInit(): void {
   }
 
@@ -40,21 +43,16 @@ export class PassChangeComponent implements OnInit {
     } else {
       refPassword = this.user.password;
     }
-    if (this.oldPassword != refPassword) {
-      this.message = 'Неисправна стара лозинка.'
+    if (!this.passCheck.test(this.pass1) || this.pass1[0].toLocaleLowerCase() == this.pass1[0].toUpperCase()) {
+      this.message = 'Лозинка није у исправном формату.'
       return;
     }
     if (this.pass1 != this.pass2) {
       this.message = "Лозинке се не поклапају."
       return;
     }
-    if (this.pass1 == this.oldPassword) {
-      this.message = "Нова лозинка мора бити другачије од старе."
-      return;
-    }
     if (this.company != null) {
-      this.company.password = this.pass1;
-      this.companyService.update(this.company).subscribe(response => {
+      this.companyService.changePass({ username: this.company.username, oldPassword: this.oldPassword, password: this.pass1 }).subscribe(response => {
         if (response['status'] == 'updated') {
           sessionStorage.clear();
           this.router.navigate(['']);
@@ -64,7 +62,7 @@ export class PassChangeComponent implements OnInit {
       })
     } else if (this.user != null) {
       this.user.password = this.pass1;
-      this.userService.update(this.user).subscribe(response => {
+      this.userService.changePass({ username: this.user.username, oldPassword: this.oldPassword, password: this.pass1 }).subscribe(response => {
         if (response['status'] == 'updated') {
           sessionStorage.clear();
           this.router.navigate(['']);
@@ -74,7 +72,7 @@ export class PassChangeComponent implements OnInit {
       })
     } else if (this.admin != null) {
       this.admin.password = this.pass1;
-      this.adminService.update(this.admin).subscribe(response => {
+      this.adminService.changePass({ username: this.admin.username, oldPassword: this.oldPassword, password: this.pass1 }).subscribe(response => {
         if (response['status'] == 'updated') {
           sessionStorage.clear();
           this.router.navigate(['']);

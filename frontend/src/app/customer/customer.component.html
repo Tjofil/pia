@@ -1,42 +1,49 @@
-
-<div class='float-container'>
-    <app-register fxLayout='column' fxLayoutAlign='space-between center' class='float-child' [isCustomer]="false" [isAdmin]="false"
-        (messageEvent)="changeMessage($event)" (taxIdEvent)="getFeedback($event)" [class.bleak]='taxIdMode == true'>
-    </app-register>
-
-    <div fxLayout='column' fxLayoutAlign='space-between center' [class.bleak]='taxIdMode == false'
-        class='float-child'>
-        <br />
-            <mat-form-field appearance='fill' class='reg-form-field'>
-                <mat-label>ПИБ</mat-label>
-                <input matInput [(ngModel)]='taxIdLocal'>
-            </mat-form-field>
-        <button mat-raised-button (click)='findAndAdd()' color='primary'>Претражи</button>
+<div fxLayout='column' fxLayoutAlign='center'>
+    <div fxLayout='column' fxLayoutAlign='center'>
+        <div fxLayout='row wrap' fxLayoutAlign='center' style='margin-top: 2%;'>
+            <div>
+                <mat-form-field appearance='fill' class='form-field'>
+                    <mat-label>Бр. дана за плаћање</mat-label>
+                    <input matInput [(ngModel)]='daysForPaying'>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance='fill' class='form-field'>
+                    <mat-label>Проценат рабата</mat-label>
+                    <input matInput [(ngModel)]='rebate'>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayoutAlign='center' fxLayout='column'
+            style='margin-top: 1%; margin-bottom: 1%; max-width: 100px !important;'>
+            <label id='mode-radio-group' fxLayoutAlign='center' style='margin-bottom: 3%'>Тип
+                уноса:</label>
+            <mat-radio-group fxLayout='row wrap' fxLayoutGap="50px grid" fxLayoutAlign='center' color='primary'
+                [(ngModel)]='taxIdMode' aria-labelledby='mode-radio-group'>
+                <mat-radio-button [value]='false' class='padded-radio'>Регистрација</mat-radio-button>
+                <mat-radio-button [value]='true' class='padded-radio'>Претрага</mat-radio-button>
+            </mat-radio-group>
+        </div>
 
     </div>
-    <br />
-    <hr style='border-top: 2px solid #574AE2; padding-left: 10px;'> <br />
-    <div class='center'>
-        <label id='mode-radio-group' class='padded-radio'>Одаберите услугу:</label>
-        <br />
-        <mat-radio-group color='primary' [(ngModel)]='taxIdMode' aria-labelledby='mode-radio-group'>
-            <mat-radio-button [value]='false' class='padded-radio'>Регистрација</mat-radio-button>
-            <mat-radio-button [value]='true' class='padded-radio'>Претрага</mat-radio-button>
-        </mat-radio-group>
+    <div fxLayout="row wrap" fxLayoutGap="100px grid" fxLayoutAlign='center'>
+        <app-register fxLayout='column' fxLayoutAlign='space-between center' [isCustomer]="false" [isAdmin]="false"
+            (messageEvent)="changeMessage($event)" (taxIdEvent)="getFeedback($event)" [class.bleak]='taxIdMode == true'
+            style='margin-top: 3%'>
+        </app-register>
+        <div fxLayout='column' fxLayoutAlign='start center' style='margin-top: 3%'>
+            <div fxLayout='column' fxLayoutAlign='center' [class.bleak]='taxIdMode == false'>
+                <mat-form-field appearance='fill'>
+                    <mat-label>ПИБ</mat-label>
+                    <input matInput [(ngModel)]='taxIdLocal'>
+                </mat-form-field>
+                <div fxLayoutAlign='center'>
+                    <button mat-raised-button (click)='findAndAdd()' color='primary'>Претражи и додај</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class = 'center' style = 'margin-top: 2%;'>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Бр. дана за плаћање</mat-label>
-            <input matInput [(ngModel)]='daysForPaying'>
-        </mat-form-field>
-        <mat-form-field appearance='fill' class='reg-form-field'>
-            <mat-label>Проценат рабата</mat-label>
-            <input matInput [(ngModel)]='rebate'>
-        </mat-form-field>
-    </div>
-
-    <div class='center'>
+    <div fxLayoutAlign='center' style='margin-top: 2%'>
         <p [ngClass]="{ 'error-msg' : !isSuccess() , 'success-msg' : isSuccess()}">{{message}}</p>
     </div>
-
 </div>

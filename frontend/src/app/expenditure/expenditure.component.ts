@@ -30,7 +30,7 @@ export class ExpenditureComponent implements OnInit {
 
     for (let i = 1; i <= refDay; ++i) {
       let data = {
-        name: '' + (i + 1), value: 0
+        name: '' + i, value: 0
       }
       dummyMonthData.push(data)
     }
@@ -40,8 +40,13 @@ export class ExpenditureComponent implements OnInit {
       receipts = response;
       receipts.forEach(receipt => {
         let date = new Date(receipt.closingDate);
-        dummyYearData[(date.getMonth() + 11 - refMonth) % 12].value += receipt.value;
-        dummyMonthData[date.getDay()].value += receipt.value;
+        let today = new Date();
+        if (this.last12Months(date, today)) {
+          dummyYearData[(date.getMonth() + 11 - refMonth) % 12].value += receipt.value;
+        }
+        if (this.isSameMonth(date, today)) {
+          dummyMonthData[date.getDate() - 1].value += receipt.value;
+        }
       });
       this.yearData = dummyYearData;
       this.monthData = dummyMonthData;
@@ -49,6 +54,19 @@ export class ExpenditureComponent implements OnInit {
 
   }
 
+  isSameMonth(d: Date, t: Date): Boolean {
+    return d.getFullYear() == t.getFullYear() && d.getMonth() == t.getMonth();
+  }
+
+  last12Months(d: Date, t: Date): Boolean {
+    if (d.getFullYear() + 2 <= t.getFullYear()) {
+      return false;
+    }
+    if (d.getFullYear() + 1 == t.getFullYear() && d.getMonth() <= t.getMonth()) {
+      return false;
+    }
+    return true;
+  }
 
   @Input() user: User;
   monthData;

@@ -43,7 +43,7 @@ export class AddProductComponent implements OnInit, AfterViewInit {
       let tempImage = new Image();
       this.productToAdd.picture = tempImage.src = event.target.result as string;
       tempImage.onload = () => {
-        if (tempImage.width > 100 || tempImage.width < 50 || tempImage.height > 100 || tempImage.height < 50) {
+        if (tempImage.width > 300 || tempImage.width < 100 || tempImage.height > 300 || tempImage.height < 100) {
           this.message = 'Неподржане димензије: Одаберите слику величине између 50x500 и 100x100 px.'
           this.logoName = this.logoAttached.nativeElement.value = ''
           this.productToAdd.picture = this.defaultPicture
@@ -54,5 +54,6 @@ export class AddProductComponent implements OnInit, AfterViewInit {
     }
     reader.readAsDataURL(file);
   }
+
 
 }

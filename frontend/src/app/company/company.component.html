@@ -1,14 +1,14 @@
 <ng-container *ngIf='myCompany.approval == "blocked" else norm'>
-  <h3 style='text-align: center; margin-top: 2%;'>Ваш налог је тренутно деактивиран од стране администратора.<br /><a href='/'>
+  <h3 style='text-align: center; margin-top: 2%;'>Ваш налог је тренутно деактивиран од стране администратора.<br /><a
+      href='/'>
       Повратак на почетну
       страницу</a>
   </h3>
 </ng-container>
 <ng-template #norm>
   <mat-sidenav-container class="example-container" *ngIf="myCompany.loginDone else finishRegistration">
-    <mat-sidenav mode="side" opened style='width: 200px; background-color: #3f51b5;'>
+    <mat-sidenav mode="side" [(opened)]='opened' style='width: 200px; background-color: #3f51b5;'>
       <mat-nav-list>
-        <a mat-list-item routerLink="/" class='white-link'>Почетна</a>
         <a mat-list-item (click)="setState('dataRevision')" class='white-link'>Подаци</a>
         <a mat-list-item (click)="setState('passChange')" class='white-link'>Промена лозинке</a>
         <a mat-list-item (click)="setState('customers')" class='white-link'>Наручиоци</a>
@@ -28,6 +28,12 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+      <mat-toolbar color="primary" style="min-height: 60px !important; height: 60px !important;">
+        <button mat-button (click)='opened = !opened'>
+          <mat-icon>menu</mat-icon>
+        </button>
+        Контролни панел запослених
+      </mat-toolbar>
 
       <ng-container *ngIf='state == "welcome"'>
         <div style='width:100%; margin-top: 2%' fxLayout='column' fxLayoutAlign='space-between center'>
@@ -56,33 +62,49 @@
 
       <app-report class='center' *ngIf='state == "report"' [company]='myCompany'></app-report>
 
-      <div *ngIf='state == "dataRevision"' fxLayout='column' fxLayoutAlign='space-between center'>
-        <mat-tab-group mat-align-tabs=' center'>
+      <div *ngIf='state == "dataRevision"' fxLayout='column' fxLayoutAlign='center center'>
+        <mat-tab-group mat-align-tabs='center'>
           <mat-tab label="Општи подаци">
-            <br />
-            <div class='center'>
-              <mat-form-field appearance='fill' class='reg-form-field'>
-                <mat-label>Име</mat-label>
-                <input matInput [(ngModel)]='myCompany.name'>
-              </mat-form-field>
+            <div fxLayout='column' fxLayoutAlign='center center'>
 
-              <mat-form-field appearance='fill'>
-                <mat-label>Презиме</mat-label>
-                <input matInput [(ngModel)]='myCompany.surname'>
-              </mat-form-field>
+              <div fxLayout='row wrap' fxLayoutAlign='center'>
+                <div>
+                  <mat-form-field appearance='fill' class='form-field'>
+                    <mat-label>Име</mat-label>
+                    <input matInput [(ngModel)]='myCompany.name'>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field appearance='fill' class='form-field'>
+                    <mat-label>Презиме</mat-label>
+                    <input matInput [(ngModel)]='myCompany.surname'>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+              <div fxLayout='row wrap' fxLayoutAlign='center'>
+
+                <div>
+                  <mat-form-field appearance='fill' class='form-field'>
+                    <mat-label>Контакт телефон</mat-label>
+                    <input matInput [(ngModel)]='myCompany.phone'>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field appearance='fill' class='form-field'>
+                    <mat-label>Електронска пошта</mat-label>
+                    <input matInput [(ngModel)]='myCompany.mail'>
+                  </mat-form-field>
+                </div>
+
+              </div>
             </div>
 
-            <div class='center'>
-              <mat-form-field appearance='fill' class='reg-form-field'>
-                <mat-label>Контакт телефон</mat-label>
-                <input matInput [(ngModel)]='myCompany.phone'>
-              </mat-form-field>
-              <mat-form-field appearance='fill'>
-                <mat-label>Електронска пошта</mat-label>
-                <input matInput [(ngModel)]='myCompany.mail'>
-              </mat-form-field>
-            </div>
-            <div style='margin-top: 10px;' class='center'><button mat-raised-button (click)='update()'
+
+            <div style='margin-top: 3%px;' class='center'><button mat-raised-button (click)='update()'
                 color='primary'>Измени</button></div>
             <div class='center' style='height: 60px;'>
               <p [ngClass]="{ 'error-msg' : message != successUpdate , 'success-msg' : message == successUpdate }">
@@ -90,8 +112,7 @@
             </div>
           </mat-tab>
           <mat-tab label="Жиро рачуни">
-            <br />
-            <div class='center'>
+            <div>
               <table>
                 <tr *ngFor="let bank of myCompany.bankAccounts; let index = index;">
                   <td>
@@ -167,8 +188,8 @@
                   <mat-form-field appearance='fill'>
                     <mat-label>Тип касе</mat-label>
                     <mat-select [(ngModel)]='myCompany.cashRegs[index].cgType' required="true">
-                      <mat-option value='type1'> Први тип касе </mat-option>
-                      <mat-option value='type2'> Други тип касе </mat-option>
+                      <mat-option value='efu-lpfr'> ЕФУ - ЛПФР </mat-option>
+                      <mat-option value='efu-vpfr'> ЕФУ - ВПФР </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </td>
@@ -192,15 +213,16 @@
           </mat-tab>
         </mat-tab-group>
       </div>
-      <footer style='position:absolute; bottom: 0px; right: 0px'>
-        <div>© 2022 Copyright: &nbsp;
-          <a href="https://github.com/Tjofil/"> Филип Дробњаковић</a>
-        </div>
-      </footer>
-
+      <mat-toolbar style="min-height: 30px !important; height: 30px !important; position: fixed;
+bottom: 0px; right: 0px;" color='primary'>
+        <span class="spacer"></span>
+        <span class="mat-body author">Copyright: Филип Дробњаковић 2022</span>
+      </mat-toolbar>
     </mat-sidenav-content>
 
   </mat-sidenav-container>
+
+
 
   <ng-template #finishRegistration>
     <div fxLayout='column' fxLayoutAlign='space-between center'>
@@ -363,7 +385,7 @@
           <mat-step>
             <ng-template matStepLabel>Крај регистрације</ng-template>
             <div style='padding-top: 25px; padding-bottom: 25px;'>
-              Притисните Ресет за поновно попуњавање форме или Крај за завршетак регистације.
+              Притисните Ресет за поновно попуњавање форме или Крај за завршетак регистрације.
             </div>
             <div>
               <button mat-button (click)="stepper.reset()">Ресет</button>

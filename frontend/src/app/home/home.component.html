@@ -18,7 +18,7 @@
                     <div>
                         <mat-form-field appearance='fill' class='form-field'>
                             <mat-label>Лозинка</mat-label>
-                            <input type=' password' matInput [(ngModel)]='loginPassword'>
+                            <input type='password' matInput [(ngModel)]='loginPassword'>
                         </mat-form-field>
                     </div>
                 </div>
@@ -26,7 +26,6 @@
                     <button mat-raised-button (click)='login()' color='primary'>Пријави се</button>
                 </div>
             </div>
-
 
             <div [ngClass]='{"bleak" : !registerMode }' fxLayoutAlign='center' fxLayout='column'
                 style='margin-top: 5%; margin-bottom: 5%;'>
@@ -62,16 +61,26 @@
             </div>
 
         </div>
-
-
     </div>
     <div>
         <h3 style='text-align: center; margin-top: 5%;'>Најскорије издати рачуни:<br />
         </h3>
     </div>
     <div style='width: 100%;' fxLayoutAlign='center'>
+        <mat-nav-list style='width: 100%; margin-bottom: 2%;'>
+            <mat-list-item>
+                <div style='margin-right: 3%' class='center'>
+                    <mat-icon class='invisible'>keyboard_arrow_right</mat-icon>
+                </div>
+                <div style='color: gray; '>
+                    Предузеће и детаљи локације
 
-        <mat-nav-list>
+                </div>
+
+                <div style='position: absolute; right: 1%; color: gray' class='center'>
+                    Вредност рачуна (са порезом)
+                </div>
+            </mat-list-item>
             <mat-divider></mat-divider>
             <ng-container *ngFor='let receipt of lastReceipts'>
                 <mat-list-item (click)=onSelect(receipt)>
@@ -81,16 +90,15 @@
                         <mat-icon *ngIf='expandingReceipts.includes(receipt)'>keyboard_arrow_down</mat-icon>
                     </div>
 
-                    [ {{getCompany(receipt)}} | {{receipt.location}} | {{receipt.department}} | {{receipt.tableId}}
-                    ]
-                    Укупна
-                    вредност (са
-                    порезом):
-                    {{receipt.value}} ДИН
+                    {{getCompany(receipt)}}, {{receipt.location + (receipt.department != ''?(', ' + receipt.department +
+                    ', бр. стола ' + receipt.tableId) : '')}}
+                    <div style='position: absolute; right: 1%;' class=' center'>
+                        {{receipt.value}} ДИН
+                    </div>
 
                 </mat-list-item>
 
-                <mat-list-item *ngIf='expandingReceipts.includes(receipt)' style='margin-left: 8%;'>
+                <mat-list-item *ngIf='expandingReceipts.includes(receipt)' style='margin-left: 8%; width: 90%;'>
                     Датум: {{getDate(receipt)}} &nbsp; Начин плаћања:
                     {{getMethod(receipt)}}</mat-list-item>
                 <mat-list *ngIf='expandingReceipts.includes(receipt)' style='margin-left: 8%;'>

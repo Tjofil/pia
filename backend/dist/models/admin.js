@@ -11,6 +11,12 @@ let Admin = new Schema({
     },
     password: {
         type: String
+    },
+    name: {
+        type: String
+    },
+    surname: {
+        type: String
     }
 });
 exports.default = mongoose_1.default.model('AdminModel', Admin, 'admins');

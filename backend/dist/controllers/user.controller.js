@@ -10,12 +10,38 @@ class UserController {
         this.login = (req, res) => {
             let username = req.body.username;
             let password = req.body.password;
-            user_1.default.findOne({ 'username': username, 'password': password }, (err, company) => {
+            user_1.default.findOne({ 'username': username, 'password': password }, (err, user) => {
                 if (err) {
                     console.log(err);
                 }
                 else {
-                    res.json(company);
+                    res.json(user);
+                }
+            });
+        };
+        this.changePass = (req, res) => {
+            user_1.default.findOne({ username: req.body.username }, (err, user) => {
+                if (err || user == null) {
+                    console.log(err);
+                    res.json({ status: 'Непозната грешка.' });
+                }
+                else {
+                    if (req.body.oldPassword != user.password) {
+                        res.json({ status: 'Унета неисправна стара лозинка.' });
+                    }
+                    else if (user.password == req.body.password) {
+                        res.json({ status: 'Нова лозинка не може бити иста као стара.' });
+                    }
+                    else {
+                        user_1.default.updateOne({ username: req.body.username }, { password: req.body.password }, (err, resp) => {
+                            if (err) {
+                                res.json({ status: 'Непозната грешка' });
+                            }
+                            else {
+                                res.json({ status: 'updated' });
+                            }
+                        });
+                    }
                 }
             });
         };
@@ -28,7 +54,7 @@ class UserController {
                 }
                 else {
                     let userToRegister = new user_1.default(req.body);
-                    userToRegister.save((err, company) => {
+                    userToRegister.save((err, user) => {
                         if (err) {
                             console.log(err);
                             res.json({ status: 'Неуспешна регистрација: Непозната грешка.' });

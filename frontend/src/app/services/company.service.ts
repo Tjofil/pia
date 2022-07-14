@@ -62,6 +62,10 @@ export class CompanyService {
     return this.http.post(`${this.backendUrl}/companies/update`, data);
   }
 
+  changePass(data) {
+    return this.http.post(`${this.backendUrl}/companies/changePass`, data);
+  }
+
   addByTaxId(taxId, daysForPaying, rebate, company) {
     const data = {
       taxId: taxId,

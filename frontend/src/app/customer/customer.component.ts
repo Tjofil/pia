@@ -44,6 +44,18 @@ export class CustomerComponent implements OnInit {
   }
 
   findAndAdd() {
+    if (this.taxIdLocal == undefined || this.rebate == undefined || this.daysForPaying == undefined) {
+      this.message = 'Сва поља су обавезна.'
+      return;
+    }
+    if (isNaN(this.taxIdLocal) || isNaN(this.daysForPaying) || isNaN(this.rebate)) {
+      this.message = 'Тражени подаци морају бити у ипсравном формату.'
+      return;
+    }
+    if (this.taxIdLocal == this.company.taxId) {
+      this.message = 'Не можете додати своју фирму као наручиоца.'
+      return;
+    }
     this.companyService.addByTaxId(this.taxIdLocal, this.rebate, this.daysForPaying, this.company.username).subscribe((response) => {
       if (response['status'] == 'added') {
         this.message = this.successCAdd;

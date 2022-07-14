@@ -25,7 +25,8 @@ export class DialogComponent implements OnInit {
 
   @HostListener('input') oninput() {
     this.filteredProducts = this.data.company.products.filter(
-      product => product.name.includes(this.searchName) && product.producer.includes(this.searchProducer));
+      product => product.name.toLowerCase().includes(this.searchName.toLowerCase())
+        && product.producer.toLowerCase().includes(this.searchProducer.toLowerCase()));
   }
 
   searchName: string = '';

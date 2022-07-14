@@ -3,8 +3,8 @@ export class Category {
         this.parent = parent;
         this.name = name;
     }
-    parent : string;
-    name : string;
+    parent: string;
+    name: string;
 }
 
 export class EditCategory {
@@ -13,7 +13,7 @@ export class EditCategory {
         this.oldName = oldName;
         this.name = oldName;
     }
-    parent : string;
-    oldName : string;
-    name : string;
+    parent: string;
+    oldName: string;
+    name: string;
 }

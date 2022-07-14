@@ -1,7 +1,6 @@
 <mat-sidenav-container class="example-container">
-  <mat-sidenav mode="side" opened style='width: 200px; background-color: #3f51b5;'>
+  <mat-sidenav mode="side" [(opened)]='opened' style='width: 200px; background-color: #3f51b5;'>
     <mat-nav-list>
-      <a mat-list-item routerLink="/" class='white-link'>Почетна</a>
       <a mat-list-item (click)="setState('passChange')" class='white-link'>Промена лозинке</a>
       <a mat-list-item (click)="setState('products')" class='white-link'>Артикли</a>
       <a mat-list-item (click)="setState('receipts')" class='white-link'>Рачуни</a>
@@ -12,9 +11,13 @@
     </mat-nav-list>
   </mat-sidenav>
 
-
-
   <mat-sidenav-content>
+    <mat-toolbar color="primary" style="min-height: 60px !important; height: 60px !important;">
+      <button mat-button (click)='opened = !opened'>
+        <mat-icon>menu</mat-icon>
+      </button>
+      Контролни панел грађана
+    </mat-toolbar>
     <app-expenditure *ngIf='state =="expenditure"' [user]='myUser'></app-expenditure>
     <app-pass-change *ngIf='state == "passChange"' [user]='myUser' [admin]='null' [company]='null'></app-pass-change>
 
@@ -41,7 +44,6 @@
               Назив предузећа
             </div>
 
-
             <div style='position: absolute; right: 1%; color: gray' class='center'>
               Адреса предузећа
               <button mat-button color="primary" class='invisible'>
@@ -54,7 +56,6 @@
           <mat-list-item *ngFor='let company of filteredCompanies' class='center'>
             {{company.companyName}} &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
 
-
             <div style='position: absolute; right: 1%;' class='center'>
               {{company.companyAdress}}
               <button mat-button color="primary" (click)='getArticles(company)'>
@@ -66,9 +67,12 @@
         </mat-list>
       </div>
 
-
     </div>
-
+    <mat-toolbar style="min-height: 30px !important; height: 30px !important; position: fixed;
+    bottom: 0px; right: 0px;" color='primary'>
+      <span class="spacer"></span>
+      <span class="mat-body author">Copyright: Филип Дробњаковић 2022</span>
+    </mat-toolbar>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
